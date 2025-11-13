@@ -138,14 +138,14 @@
             transition: background 0.3s;
         }
 
-        .btn-edit-price {
+        /* .btn-edit-price {
             background: #f59e0b;
             color: white;
         }
 
         .btn-edit-price:hover {
             background: #d97706;
-        }
+        } */
 
         .btn-result-sheet {
             background: #0284c7;
@@ -384,7 +384,6 @@
 
             .bank-input-group {
                 flex-direction: column;
-                gap: 10px;
             }
 
             .bank-input-group input {
@@ -393,18 +392,15 @@
 
             .bank-actions {
                 flex-direction: column;
-                gap: 10px;
             }
 
-            .player-screen {
-                padding: 20px;
-                min-height: 400px;
+            .bank-actions button {
+                width: 100%;
             }
 
             .player-image-large {
                 width: 200px;
                 height: 200px;
-                margin-bottom: 20px;
             }
 
             .player-name-large {
@@ -413,88 +409,36 @@
 
             .player-category-badge {
                 font-size: 1.2em;
-                padding: 8px 20px;
             }
 
-            .base-price-display {
-                font-size: 1.4em;
-            }
-
-            .sold-price-display {
+            .player-price-large {
                 font-size: 2em;
             }
-
-            .navigation-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .nav-btn {
-                padding: 10px 20px;
-                font-size: 1em;
-            }
-
-            .result-sheet-content {
-                padding: 15px;
-            }
-
-            .result-sheet-content table {
-                font-size: 0.8em;
-            }
-        }
-        
-        /* Tablet/Small Laptop Optimization */
-        @media (max-width: 1024px) and (min-width: 601px) {
-            .container {
-                max-width: 90%;
-            }
-
-            .player-image-large {
-                width: 250px;
-                height: 250px;
-            }
-
-            .player-name-large {
-                font-size: 2.5em;
-            }
-
-            .bank-input-group input {
-                width: 180px;
-            }
-        }
-            background: #dc2626;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            display: block;
-            margin: 0 auto;
         }
     </style>
 </head>
-<body>
+<body onload="init()">
     <div class="container">
         <div class="header">
-            <h1>🏏 ক্রিকেট প্লেয়ার নিলাম</h1>
-            <p>প্লেয়ারের মূল্য সেট করুন এবং রেজাল্ট শীট তৈরি করুন</p>
+            <h1>ক্রিকেট প্লেয়ার নিলাম</h1>
+            <p>সহজেই প্লেয়ারের মূল্য সেট করুন এবং রেজাল্ট দেখুন</p>
         </div>
 
         <!-- ব্যাংক প্যানেল -->
         <div class="bank-panel">
-            <h2>💰 মূল্য নির্ধারণ ও নিয়ন্ত্রণ</h2>
-            
+            <h2>💸 নিলাম ব্যাংক</h2>
             <div class="bank-input-group">
                 <input type="number" id="auctionPriceInput" placeholder="বিক্রিত মূল্য লিখুন (যেমন: 150000)">
                 <button onclick="setAuctionPrice()">মূল্য সেট করুন</button>
             </div>
-
             <div class="bank-actions">
-                <button class="btn-edit-price" onclick="editCurrentPlayerPrice()">📝 মূল্য এডিট করুন</button>
-                <button class="btn-result-sheet" onclick="showResultSheet()">📊 রেজাল্ট শীট দেখুন</button>
-                <button class="btn-reset-data" onclick="resetDataConfirmation()">🗑️ ডেটা রিসেট করুন</button>
+                <!-- মূল্য এডিট করুন বাটনটি মুছে ফেলা হলো -->
+                <button class="btn-result-sheet" onclick="showResultSheet()">
+                    রেজাল্ট শীট দেখুন
+                </button>
+                <button class="btn-reset-data" onclick="resetData()">
+                    মুছে ফেলুন (সকল ডেটা)
+                </button>
             </div>
         </div>
 
@@ -555,9 +499,9 @@
             { name: "সাকিব আল হাসান", category: "A", basePrice: "150000", imageURL: "", auctionPrice: null },
             { name: "মুশফিকুর রহিম", category: "A", basePrice: "120000", imageURL: "", auctionPrice: null },
             { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: "", auctionPrice: null },
-            { name: "সাকিব আল হাসান", category: "A", basePrice: "150000", imageURL: "", auctionPrice: null },
-            { name: "মুশফিকুর রহিম", category: "A", basePrice: "120000", imageURL: "", auctionPrice: null },
-            { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: "", auctionPrice: null },
+            { name: "মাশরাফি বিন মর্তুজা", category: "A", basePrice: "150000", imageURL: "", auctionPrice: null },
+            { name: "লিটন দাস", category: "A", basePrice: "120000", imageURL: "", auctionPrice: null },
+            { name: "মেহেদী হাসান মিরাজ", category: "A", basePrice: "100000", imageURL: null, auctionPrice: null },
             
             // B ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
             { name: "মাহমুদুল্লাহ রিয়াদ", category: "B", basePrice: "80000", imageURL: "", auctionPrice: null },
@@ -565,11 +509,17 @@
             { name: "মুস্তাফিজুর রহমান", category: "B", basePrice: "60000", imageURL: "", auctionPrice: null },
 
             // C ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
-            { name: "লিটন দাস", category: "C", basePrice: "50000", imageURL: "", auctionPrice: null },
-            { name: "শরিফুল ইসলাম", category: "C", basePrice: "40000", imageURL: "", auctionPrice: null },
-            { name: "আফিফ হোসেন", category: "C", basePrice: "30000", imageURL: "", auctionPrice: null },
+            { name: "শরিফুল ইসলাম", category: "C", basePrice: "50000", imageURL: "", auctionPrice: null },
+            { name: "আফিফ হোসেন", category: "C", basePrice: "40000", imageURL: "", auctionPrice: null },
+            { name: "নাসুম আহমেদ", category: "C", basePrice: "30000", imageURL: "", auctionPrice: null },
         ];
         
+        // ইনিশিয়ালাইজেশন ফাংশন
+        function init() {
+            loadFromStorage();
+            displayCurrentPlayer();
+        }
+
         // প্লেয়ার ডেটা লোড
         function loadFromStorage() {
             const storedPlayers = localStorage.getItem('cricketPlayers');
@@ -588,8 +538,6 @@
             // সকল ডেটা স্বয়ংক্রিয়ভাবে সেভ করা হলো
             localStorage.setItem('cricketPlayers', JSON.stringify(allPlayers));
         }
-
-        // ইমেজ ইউআরএল তৈরি ফাংশনটি আর প্রয়োজন নেই, সরাসরি player.imageURL ব্যবহার করা হবে।
 
         // বর্তমান ক্যাটাগরির প্লেয়ার
         function getCurrentCategoryPlayers() {
@@ -698,6 +646,7 @@
             const player = currentPlayers[currentPlayerIndex];
             
             // মূল allPlayers অ্যারেতে প্লেয়ার খুঁজে আপডেট করা
+            // এখানে প্লেয়ারের নাম এবং ক্যাটাগরি উভয়ই ব্যবহার করা হচ্ছে যাতে একই নামের একাধিক প্লেয়ার থাকলেও সমস্যা না হয়
             const playerIndexInAll = allPlayers.findIndex(p => p.name === player.name && p.category === player.category);
             if (playerIndexInAll !== -1) {
                 allPlayers[playerIndexInAll].auctionPrice = price;
@@ -708,110 +657,66 @@
             }
         }
 
-        // মূল্য এডিট করুন
-        function editCurrentPlayerPrice() {
-            const currentPlayers = getCurrentCategoryPlayers();
-            if (currentPlayers.length === 0) {
-                alert('⚠️ কোনো প্লেয়ার নেই!');
-                return;
-            }
-
-            const player = currentPlayers[currentPlayerIndex];
-            const newPrice = prompt(`📝 ${player.name}-এর নতুন বিক্রিত মূল্য লিখুন (বর্তমান: ${player.auctionPrice || 'সেট করা হয়নি'}):`);
-
-            if (newPrice === null) {
-                return; // Cancelled
-            }
-
-            const trimmedPrice = newPrice.trim();
-            if (!trimmedPrice || isNaN(trimmedPrice) || parseInt(trimmedPrice) <= 0) {
-                alert('⚠️ সঠিক মূল্য লিখুন!');
-                return;
-            }
-
-            // মূল allPlayers অ্যারেতে প্লেয়ার খুঁজে আপডেট করা
-            const playerIndexInAll = allPlayers.findIndex(p => p.name === player.name && p.category === player.category);
-            if (playerIndexInAll !== -1) {
-                allPlayers[playerIndexInAll].auctionPrice = trimmedPrice;
-                saveToStorage(); // স্বয়ংক্রিয়ভাবে সেভ করা হলো
-                displayCurrentPlayer();
-                alert(`✅ ${player.name}-এর মূল্য সফলভাবে এডিট করা হয়েছে: ${trimmedPrice}`);
-            }
-        }
-
         // রেজাল্ট শীট তৈরি ও ডিসপ্লে
         function showResultSheet() {
-            const resultTableDiv = document.getElementById('resultSheetTable')            // রেজাল্ট শীটে সকল প্লেয়ারকে দেখানোর জন্য কোনো ফিল্টারিং করা হলো না
+            const resultTableDiv = document.getElementById('resultSheetTable');
+            const resultSheetOverlay = document.getElementById('resultSheetOverlay');
+            
+            // সকল প্লেয়ারকে দেখানোর জন্য কোনো ফিল্টারিং করা হলো না
             const playersToShow = allPlayers;
 
-            if (soldPlayers.length === 0) {
-                resultTableDiv.innerHTML = '<p style="text-align: center; color: #dc2626; font-weight: bold;">এখনও কোনো প্লেয়ার বিক্রি হয়নি।</p>';
+            if (playersToShow.length === 0) {
+                resultTableDiv.innerHTML = '<p style="text-align: center; color: #dc2626; font-weight: bold;">কোনো প্লেয়ার ডেটা নেই।</p>';
             } else {
-                let tableHTML = '<table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th></tr></thead><tbody>';
+                let tableHTML = '<table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>স্ট্যাটাস</th></tr></thead><tbody>';
                 
-                soldPlayers.forEach(player => {
+                playersToShow.forEach(player => {
+                    const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
+                    const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
+                    const statusColor = player.auctionPrice ? '#059669' : '#ea580c'; // সবুজ: বিক্রিত, কমলা: অবিকৃত
+
                     tableHTML += `
                         <tr>
                             <td>${player.name}</td>
                             <td>${player.category}</td>
                             <td>${player.basePrice}</td>
-                            <td style="font-weight: bold; color: #dc2626;">${player.auctionPrice}</td>
+                            <td>${priceDisplay}</td>
+                            <td style="font-weight: bold; color: ${statusColor};">${status}</td>
                         </tr>
                     `;
                 });
-
+                
                 tableHTML += '</tbody></table>';
                 resultTableDiv.innerHTML = tableHTML;
             }
-
-            document.getElementById('resultSheetOverlay').style.display = 'flex';
+            
+            resultSheetOverlay.style.display = 'flex';
         }
 
         // রেজাল্ট শীট লুকান
         function hideResultSheet(event) {
-            if (event && event.target.id === 'resultSheetOverlay') {
-                document.getElementById('resultSheetOverlay').style.display = 'none';
-            } else if (!event) {
-                document.getElementById('resultSheetOverlay').style.display = 'none';
+            // যদি ইভেন্ট থাকে এবং ক্লিকটি কন্টেন্টের উপর হয়, তবে লুকানো হবে না
+            if (event && event.target.id !== 'resultSheetOverlay') {
+                return;
             }
-        }
-        
-        // ডেটা রিসেট করার জন্য ডাবল কনফার্মেশন
-        function resetDataConfirmation() {
-            const firstConfirmation = confirm("⚠️ আপনি কি নিশ্চিত যে আপনি সকল নিলামের ডেটা (বিক্রিত মূল্য) রিসেট করতে চান? এই কাজটি অপরিবর্তনীয়।");
-            
-            if (firstConfirmation) {
-                const secondConfirmation = confirm("🚨 চূড়ান্ত সতর্কতা! আপনি যদি 'OK' চাপেন, তবে সকল সেভ করা ডেটা স্থায়ীভাবে মুছে যাবে। আপনি কি চালিয়ে যেতে চান?");
-                
-                if (secondConfirmation) {
-                    resetData();
-                } else {
-                    alert("ডেটা রিসেট বাতিল করা হয়েছে।");
-                }
-            } else {
-                alert("ডেটা রিসেট বাতিল করা হয়েছে।");
-            }
+            document.getElementById('resultSheetOverlay').style.display = 'none';
         }
 
-        // ডেটা রিসেট ফাংশন
+        // সকল ডেটা মুছে ফেলুন
         function resetData() {
-            // লোকাল স্টোরেজ থেকে ডেটা মুছে ফেলা
-            localStorage.removeItem('cricketPlayers');
-            
-            // ডিফল্ট ডেটা দিয়ে পুনরায় লোড করা
-            allPlayers = defaultPlayers;
-            saveToStorage();
-            
-            // ডিসপ্লে আপডেট করা
-            currentPlayerIndex = 0;
-            displayCurrentPlayer();
-            
-            alert("✅ সকল নিলামের ডেটা সফলভাবে রিসেট করা হয়েছে।");
+            const confirmReset = confirm("আপনি কি নিশ্চিত যে আপনি সকল প্লেয়ারের ডেটা (বিক্রিত মূল্য সহ) মুছে ফেলতে চান? এই কাজটি ফিরিয়ে আনা যাবে না।");
+            if (confirmReset) {
+                localStorage.removeItem('cricketPlayers');
+                // ডিফল্ট ডেটা দিয়ে পুনরায় লোড করা
+                allPlayers = defaultPlayers;
+                saveToStorage();
+                displayCurrentPlayer();
+                alert("✅ সকল ডেটা সফলভাবে মুছে ফেলা হয়েছে এবং ডিফল্ট ডেটা লোড করা হয়েছে।");
+            }
         }
 
-        // Initial Load
-        loadFromStorage();
-        displayCurrentPlayer();
+        // পেজ লোড হওয়ার পর ইনিশিয়ালাইজেশন
+        window.onload = init;
     </script>
 </body>
 </html>
