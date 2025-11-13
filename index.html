@@ -532,12 +532,6 @@
         let allPlayers = [];
         let currentCategory = 'A';
         let currentPlayerIndex = 0;
-        // ইউজার প্রদত্ত ইমেজ URL গুলি - **এগুলি এখন শুধু উদাহরণের জন্য রাখা হলো, কোডে ব্যবহার করা হচ্ছে না**
-        const EXAMPLE_IMAGE_URLS = {
-            //MUNNAPRO: 'https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg',
-            //MUNRO: 'https://vip.munnacodsit.xyz/mu/MUNRO.jpg',
-            //MUNNA: 'https://vip.munnacodsit.xyz/mu/MUNNA.jpg',
-        };
 
         /*
         ================================================================================
@@ -551,39 +545,26 @@
         1. name: খেলোয়াড়ের নাম (যেমন: "সাকিব আল হাসান")
         2. category: ক্যাটাগরি (A, B, বা C)
         3. basePrice: খেলোয়াড়ের ভিত্তি মূল্য (যেমন: "150000")
-        4. imageURL: ছবির URL (যদি ছবি না থাকে তবে ফাঁকা স্ট্রিং "" রাখুন। ছবি যোগ করতে এখানে ইমেজের লিংক এড করুন)
+        4. imageURL: ছবির URL (যদি ছবি না থাকে তবে ফাঁকা স্ট্রিং "" রাখুন)
         5. auctionPrice: বিক্রিত মূল্য (প্রাথমিকভাবে null রাখুন, নিলামের সময় সেট হবে)
         
         নোট: আপনি চাইলে প্রতিটি ক্যাটাগরিতে একাধিক প্লেয়ার যোগ করতে পারবেন।
         */
         const defaultPlayers = [
             // A ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
-            { name: "সাকিব আল হাসান", category: "A", basePrice: "150000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "তামিম ইকবাল", category: "A", basePrice: "130000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "মুশফিকুর রহিম", category: "A", basePrice: "120000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "লিটন দাস", category: "A", basePrice: "90000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "তাসকিন আহমেদ", category: "A", basePrice: "85000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "মেহেদী হাসান মিরাজ", category: "A", basePrice: "80000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "নাজমুল হোসেন শান্ত", category: "A", basePrice: "75000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "আফিফ হোসেন ধ্রুব", category: "A", basePrice: "70000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "মোস্তাফিজুর রহমান", category: "A", basePrice: "110000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "শরিফুল ইসলাম", category: "A", basePrice: "65000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "তৌহিদ হৃদয়", category: "A", basePrice: "60000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "নুরুল হাসান সোহান", category: "A", basePrice: "78000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "শামীম হোসেন পাটোয়ারী", category: "A", basePrice: "55000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "মাহমুদউল্লাহ রিয়াদ", category: "A", basePrice: "95000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-{ name: "এনামুল হক বিজয়", category: "A", basePrice: "50000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-
+            { name: "সাকিব আল হাসান", category: "A", basePrice: "150000", imageURL: "", auctionPrice: null },
+            { name: "মুশফিকুর রহিম", category: "A", basePrice: "120000", imageURL: "", auctionPrice: null },
+            { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: "", auctionPrice: null },
             
             // B ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
-            { name: "মাহমুদুল্লাহ রিয়াদ", category: "B", basePrice: "80000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-            { name: "তাসকিন আহমেদ", category: "B", basePrice: "70000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-            { name: "মুস্তাফিজুর রহমান", category: "B", basePrice: "60000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
+            { name: "মাহমুদুল্লাহ রিয়াদ", category: "B", basePrice: "80000", imageURL: "", auctionPrice: null },
+            { name: "তাসকিন আহমেদ", category: "B", basePrice: "70000", imageURL: "", auctionPrice: null },
+            { name: "মুস্তাফিজুর রহমান", category: "B", basePrice: "60000", imageURL: "", auctionPrice: null },
 
             // C ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
-            { name: "লিটন দাস", category: "C", basePrice: "50000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-            { name: "শরিফুল ইসলাম", category: "C", basePrice: "40000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
-            { name: "আফিফ হোসেন", category: "C", basePrice: "30000", imageURL: "ইমেজের লিংক এড করুন", auctionPrice: null },
+            { name: "লিটন দাস", category: "C", basePrice: "50000", imageURL: "", auctionPrice: null },
+            { name: "শরিফুল ইসলাম", category: "C", basePrice: "40000", imageURL: "", auctionPrice: null },
+            { name: "আফিফ হোসেন", category: "C", basePrice: "30000", imageURL: "", auctionPrice: null },
         ];
         
         // প্লেয়ার ডেটা লোড
@@ -757,8 +738,8 @@
 
         // রেজাল্ট শীট তৈরি ও ডিসপ্লে
         function showResultSheet() {
-            const resultTableDiv = document.getElementById('resultSheetTable');
-            const soldPlayers = allPlayers.filter(p => p.auctionPrice !== null);
+            const resultTableDiv = document.getElementById('resultSheetTable')            // রেজাল্ট শীটে সকল প্লেয়ারকে দেখানোর জন্য কোনো ফিল্টারিং করা হলো না
+            const playersToShow = allPlayers;
 
             if (soldPlayers.length === 0) {
                 resultTableDiv.innerHTML = '<p style="text-align: center; color: #dc2626; font-weight: bold;">এখনও কোনো প্লেয়ার বিক্রি হয়নি।</p>';
