@@ -532,8 +532,10 @@
         let allPlayers = [];
         let currentCategory = 'A';
         let currentPlayerIndex = 0;
-        // ইউজার প্রদত্ত সিঙ্গেল ইমেজ URL
-        const  = 'https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg'; 
+        // ইউজার প্রদত্ত সিঙ্গেল ইমেজ URL (এই URLটি এখন শুধু সাকিবের জন্য ব্যবহার করা হয়েছে)
+        const SAKIB_IMAGE_URL = 'https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg'; 
+        // ডিফল্ট প্লেসহোল্ডার ইমেজ (যদি কোনো প্লেয়ারের জন্য ছবি না থাকে)
+        const DEFAULT_PLACEHOLDER_IMAGE = 'https://via.placeholder.com/300?text=Player+Image';
 
         /*
         ================================================================================
@@ -547,26 +549,26 @@
         1. name: খেলোয়াড়ের নাম (যেমন: "সাকিব আল হাসান")
         2. category: ক্যাটাগরি (A, B, বা C)
         3. basePrice: খেলোয়াড়ের ভিত্তি মূল্য (যেমন: "150000")
-        4. imageURL: ছবির URL (সকলের জন্য একই ছবি ব্যবহার করতে চাইলে SINGLE_IMAGE_URL ব্যবহার করুন)
+        4. imageURL: ছবির URL (প্রতিটি প্লেয়ারের জন্য আলাদা URL দিন)
         5. auctionPrice: বিক্রিত মূল্য (প্রাথমিকভাবে null রাখুন, নিলামের সময় সেট হবে)
         
-        নোট: এই অ্যারেতে পরিবর্তন করার পর ফাইলটি সেভ করে ব্রাউজার রিফ্রেশ করলে পরিবর্তন দেখা যাবে।
+        নোট: এখন থেকে প্রতিটি প্লেয়ারের জন্য আলাদা imageURL ব্যবহার করতে পারবেন।
         */
         const defaultPlayers = [
             // A ক্যাটাগরি
-            { name: "সাকিব আল হাসান", category: "A", basePrice: "150000", imageURL: SINGLE_IMAGE_URL, auctionPrice: null },
-            { name: "মুশফিকুর রহিম", category: "A", basePrice: "120000", imageURL: SINGLE_IMAGE_URL, auctionPrice: null },
-            { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: SINGLE_IMAGE_URL, auctionPrice: null },
+            { name: "সাকিব আল হাসান", category: "A", basePrice: "150000", imageURL: SAKIB_IMAGE_URL, auctionPrice: null },
+            { name: "মুশফিকুর রহিম", category: "A", basePrice: "120000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
+            { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
             
             // B ক্যাটাগরি
-            { name: "মাহমুদুল্লাহ রিয়াদ", category: "B", basePrice: "80000", imageURL: SINGLE_IMAGE_URL, auctionPrice: null },
-            { name: "তাসকিন আহমেদ", category: "B", basePrice: "70000", imageURL: SINGLE_IMAGE_URL, auctionPrice: null },
-            { name: "মুস্তাফিজুর রহমান", category: "B", basePrice: "60000", imageURL: SINGLE_IMAGE_URL, auctionPrice: null },
+            { name: "মাহমুদুল্লাহ রিয়াদ", category: "B", basePrice: "80000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
+            { name: "তাসকিন আহমেদ", category: "B", basePrice: "70000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
+            { name: "মুস্তাফিজুর রহমান", category: "B", basePrice: "60000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
 
             // C ক্যাটাগরি
-            { name: "লিটন দাস", category: "C", basePrice: "50000", imageURL: SINGLE_IMAGE_URL, auctionPrice: null },
-            { name: "শরিফুল ইসলাম", category: "C", basePrice: "40000", imageURL: SINGLE_IMAGE_URL, auctionPrice: null },
-            { name: "আফিফ হোসেন", category: "C", basePrice: "30000", imageURL: SINGLE_IMAGE_URL, auctionPrice: null },
+            { name: "লিটন দাস", category: "C", basePrice: "50000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
+            { name: "শরিফুল ইসলাম", category: "C", basePrice: "40000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
+            { name: "আফিফ হোসেন", category: "C", basePrice: "30000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
         ];
         
         // প্লেয়ার ডেটা লোড
@@ -588,10 +590,7 @@
             localStorage.setItem('cricketPlayers', JSON.stringify(allPlayers));
         }
 
-        // ইমেজ ইউআরএল তৈরি (এখন শুধু সিঙ্গেল ইমেজ ব্যবহার করা হবে)
-        function getImageUrl(player) {
-            return player.imageURL || SINGLE_IMAGE_URL;
-        }
+        // ইমেজ ইউআরএল তৈরি ফাংশনটি আর প্রয়োজন নেই, সরাসরি player.imageURL ব্যবহার করা হবে।
 
         // বর্তমান ক্যাটাগরির প্লেয়ার
         function getCurrentCategoryPlayers() {
@@ -637,8 +636,8 @@
                     </div>`;
             
             screen.innerHTML = `
-                <img src="${getImageUrl(player)}" alt="${player.name}" class="player-image-large" 
-                     onerror="this.src='${SINGLE_IMAGE_URL}'">
+                <img src="${player.imageURL}" alt="${player.name}" class="player-image-large" 
+                     onerror="this.src='${DEFAULT_PLACEHOLDER_IMAGE}'">
                 <div class="player-name-large">${player.name}</div>
                 <div class="player-category-badge ${badgeClass}">
                     ${player.category} ক্যাটাগরি
