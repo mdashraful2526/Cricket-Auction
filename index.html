@@ -532,8 +532,12 @@
         let allPlayers = [];
         let currentCategory = 'A';
         let currentPlayerIndex = 0;
-        // ইউজার প্রদত্ত সিঙ্গেল ইমেজ URL (এই URLটি এখন শুধু সাকিবের জন্য ব্যবহার করা হয়েছে)
-        const SAKIB_IMAGE_URL = 'https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg'; 
+        // ইউজার প্রদত্ত ইমেজ URL গুলি
+        const IMAGE_URLS = {
+            MUNNAPRO: 'https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg',
+            MUNRO: 'https://vip.munnacodsit.xyz/mu/MUNRO.jpg',
+            MUNNA: 'https://vip.munnacodsit.xyz/mu/MUNNA.jpg',
+        };
         // ডিফল্ট প্লেসহোল্ডার ইমেজ (যদি কোনো প্লেয়ারের জন্য ছবি না থাকে)
         const DEFAULT_PLACEHOLDER_IMAGE = 'https://via.placeholder.com/300?text=Player+Image';
 
@@ -556,9 +560,9 @@
         */
         const defaultPlayers = [
             // A ক্যাটাগরি
-            { name: "সাকিব আল হাসান", category: "A", basePrice: "150000", imageURL: SAKIB_IMAGE_URL, auctionPrice: null },
-            { name: "মুশফিকুর রহিম", category: "A", basePrice: "120000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
-            { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
+            { name: "সাকিব আল হাসান", category: "A", basePrice: "150000", imageURL: IMAGE_URLS.MUNNAPRO, auctionPrice: null },
+            { name: "মুশফিকুর রহিম", category: "A", basePrice: "120000", imageURL: IMAGE_URLS.MUNRO, auctionPrice: null },
+            { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: IMAGE_URLS.MUNNA, auctionPrice: null },
             
             // B ক্যাটাগরি
             { name: "মাহমুদুল্লাহ রিয়াদ", category: "B", basePrice: "80000", imageURL: DEFAULT_PLACEHOLDER_IMAGE, auctionPrice: null },
