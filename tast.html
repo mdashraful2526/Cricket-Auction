@@ -1,1 +1,720 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ক্রিকেট প্লেয়ার নিলাম</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e5128 0%, #2d6a4f 50%, #40916c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ক্যাটাগরি ট্যাব */
+        .category-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .category-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .category-tab.a { border: 3px solid #dc2626; }
+        .category-tab.b { border: 3px solid #ea580c; }
+        .category-tab.c { border: 3px solid #f59e0b; }
+
+        /* ব্যাংক প্যানেল */
+        .bank-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .bank-panel h2 {
+            color: #1e5128;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .bank-input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .bank-input-group input {
+            padding: 10px;
+            border: 2px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 200px;
+            text-align: center;
+        }
+
+        .bank-input-group button {
+            background: #059669;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .bank-input-group button:hover {
+            background: #047857;
+        }
+
+        .bank-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .bank-actions button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        /* .btn-edit-price {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-edit-price:hover {
+            background: #d97706;
+        } */
+
+        .btn-result-sheet {
+            background: #0284c7;
+            color: white;
+        }
+
+        .btn-result-sheet:hover {
+            background: #0369a1;
+        }
+        
+        .btn-reset-data {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-reset-data:hover {
+            background: #991b1b;
+        }
+
+        /* প্লেয়ার স্ক্রীন */
+        .player-screen {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .player-image-large {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 30px;
+            border: 8px solid #ea580c;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .player-name-large {
+            font-size: 3em;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        .player-category-badge {
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .badge-a {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            color: white;
+        }
+
+        .badge-b {
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+            color: white;
+        }
+
+        .badge-c {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .player-price-large {
+            font-size: 2.5em;
+            color: #059669;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        
+        .price-info-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .base-price-display {
+            font-size: 1.8em;
+            color: #1e5128;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .sold-price-display {
+            font-size: 2.5em;
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+
+        .navigation-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            background: #ea580c;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+        .nav-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .player-counter {
+            font-size: 1.3em;
+            color: #6b7280;
+            margin-top: 20px;
+        }
+
+        .no-players {
+            font-size: 1.5em;
+            color: #6b7280;
+            padding: 100px 20px;
+        }
+
+        /* রেজাল্ট শীট স্টাইল */
+        .result-sheet-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .result-sheet-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+
+        .result-sheet-content h2 {
+            color: #1e5128;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .result-sheet-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .result-sheet-content th, .result-sheet-content td {
+            color: #1f2937;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .result-sheet-content th {
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .result-sheet-content .close-btn {
+            background: #dc2626;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design (Mobile Optimization) */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .category-tabs {
+                gap: 10px;
+            }
+
+            .category-tab {
+                padding: 10px 15px;
+                font-size: 1em;
+            }
+
+            .bank-panel {
+                padding: 15px;
+            }
+
+            .bank-panel h2 {
+                font-size: 1.5em;
+            }
+
+            .bank-input-group {
+                flex-direction: column;
+            }
+
+            .bank-input-group input {
+                width: 100%;
+            }
+
+            .bank-actions {
+                flex-direction: column;
+            }
+
+            .bank-actions button {
+                width: 100%;
+            }
+
+            .player-image-large {
+                width: 200px;
+                height: 200px;
+            }
+
+            .player-name-large {
+                font-size: 2em;
+            }
+
+            .player-category-badge {
+                font-size: 1.2em;
+            }
+
+            .player-price-large {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ক্রিকেট প্লেয়ার নিলাম</h1>
+            <p>সহজেই প্লেয়ারের মূল্য সেট করুন এবং রেজাল্ট দেখুন</p>
+        </div>
+
+        <!-- ব্যাংক প্যানেল -->
+        <div class="bank-panel">
+            <h2>💸 নিলাম ব্যাংক</h2>
+            <div class="bank-input-group">
+                <input type="number" id="auctionPriceInput" placeholder="বিক্রিত মূল্য লিখুন (যেমন: 150000)">
+                <button onclick="setAuctionPrice()">মূল্য সেট করুন</button>
+            </div>
+            <div class="bank-actions">
+                <!-- মূল্য এডিট করুন বাটনটি মুছে ফেলা হলো -->
+                <button class="btn-result-sheet" onclick="showResultSheet()">
+                    রেজাল্ট শীট দেখুন
+                </button>
+                <button class="btn-reset-data" onclick="resetData()">
+                    মুছে ফেলুন (সকল ডেটা)
+                </button>
+            </div>
+        </div>
+
+        <!-- ক্যাটাগরি ট্যাব -->
+        <div class="category-tabs">
+            <div class="category-tab a active" onclick="changeCategory('A')">
+                🌟 এ ক্যাটাগরি
+            </div>
+            <div class="category-tab b" onclick="changeCategory('B')">
+                ⭐ বি ক্যাটাগরি
+            </div>
+            <div class="category-tab c" onclick="changeCategory('C')">
+                ✨ সি ক্যাটাগরি
+            </div>
+        </div>
+
+        <!-- প্লেয়ার স্ক্রীন -->
+        <div class="player-screen" id="playerScreen">
+            <!-- প্লেয়ার ডেটা এখানে লোড হবে -->
+        </div>
+
+        <!-- রেজাল্ট শীট ওভারলে -->
+        <div class="result-sheet-overlay" id="resultSheetOverlay" onclick="hideResultSheet(event)">
+            <div class="result-sheet-content" onclick="event.stopPropagation()">
+                <h2>📊 নিলামের রেজাল্ট শীট</h2>
+                <div id="resultSheetTable">
+                    <!-- রেজাল্ট টেবিল এখানে লোড হবে -->
+                </div>
+                <button class="close-btn" onclick="hideResultSheet()">বন্ধ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allPlayers = [];
+        let currentCategory = 'A';
+        let currentPlayerIndex = 0;
+
+        /*
+        ================================================================================
+        খেলোয়াড় ডেটা এডিট করার অংশ (আপনার "ব্যাকএন্ড")
+        ================================================================================
+        
+        নতুন খেলোয়াড় যোগ করতে বা বর্তমান খেলোয়াড়ের তথ্য পরিবর্তন করতে, 
+        নিচের `defaultPlayers` অ্যারেটি এডিট করুন।
+        
+        প্রতিটি খেলোয়াড়ের জন্য নিম্নলিখিত তথ্যগুলি প্রয়োজন:
+        1. name: খেলোয়াড়ের নাম (যেমন: "সাকিব আল হাসান")
+        2. category: ক্যাটাগরি (A, B, বা C)
+        3. basePrice: খেলোয়াড়ের ভিত্তি মূল্য (যেমন: "150000")
+        4. imageURL: ছবির URL (যদি ছবি না থাকে তবে ফাঁকা স্ট্রিং "" রাখুন)
+        5. auctionPrice: বিক্রিত মূল্য (প্রাথমিকভাবে null রাখুন, নিলামের সময় সেট হবে)
+        
+        নোট: আপনি চাইলে প্রতিটি ক্যাটাগরিতে একাধিক প্লেয়ার যোগ করতে পারবেন।
+        */
+        const defaultPlayers = [
+            // A ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
+            { name: "হামজা মোল্লা", category: "A", basePrice: "150000", imageURL: "https://vip.munnacodsit.xyz/mu/HamzaMulla.jpg", auctionPrice: null },
+            { name: "শিয়াব গাজী", category: "A", basePrice: "120000", imageURL: "https://vip.munnacodsit.xyz/mu/ShiabGazi.jpg", auctionPrice: null },
+            { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: "", auctionPrice: null },
+            { name: "মাশরাফি বিন মর্তুজা", category: "A", basePrice: "150000", imageURL: "", auctionPrice: null },
+            { name: "লিটন দাস", category: "A", basePrice: "120000", imageURL: "", auctionPrice: null },
+            { name: "মেহেদী হাসান মিরাজ", category: "A", basePrice: "100000", imageURL: null, auctionPrice: null },
+            
+            // B ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
+            { name: "মোঃ মোবারক হোসেন মুন্না", category: "B", basePrice: "80000", imageURL: "https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg", auctionPrice: null },
+            { name: "মোঃ জিহাদ", category: "B", basePrice: "70000", imageURL: "https://vip.munnacodsit.xyz/mu/MdJihad.jpg", auctionPrice: null },
+            { name: "মুস্তাফিজুর রহমান", category: "B", basePrice: "60000", imageURL: "", auctionPrice: null },
+
+            // C ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
+            { name: "শরিফুল ইসলাম", category: "C", basePrice: "50000", imageURL: "", auctionPrice: null },
+            { name: "আফিফ হোসেন", category: "C", basePrice: "40000", imageURL: "", auctionPrice: null },
+            { name: "নাসুম আহমেদ", category: "C", basePrice: "30000", imageURL: "", auctionPrice: null },
+        ];
+        
+        // ইনিশিয়ালাইজেশন ফাংশন
+        function init() {
+            loadFromStorage();
+            displayCurrentPlayer();
+        }
+
+        // প্লেয়ার ডেটা লোড
+        function loadFromStorage() {
+            const storedPlayers = localStorage.getItem('cricketPlayers');
+            if (storedPlayers) {
+                // লোকাল স্টোরেজে সেভ করা ডেটা লোড করা হলো
+                allPlayers = JSON.parse(storedPlayers);
+            } else {
+                // যদি লোকাল স্টোরেজে কোনো ডেটা না থাকে, তবে ডিফল্ট ডেটা ব্যবহার করা হলো
+                allPlayers = defaultPlayers;
+                saveToStorage();
+            }
+        }
+
+        // প্লেয়ার ডেটা সেভ
+        function saveToStorage() {
+            // সকল ডেটা স্বয়ংক্রিয়ভাবে সেভ করা হলো
+            localStorage.setItem('cricketPlayers', JSON.stringify(allPlayers));
+        }
+
+        // বর্তমান ক্যাটাগরির প্লেয়ার
+        function getCurrentCategoryPlayers() {
+            return allPlayers.filter(player => player.category === currentCategory);
+        }
+
+        // ক্যাটাগরি পরিবর্তন
+        function changeCategory(newCategory) {
+            currentCategory = newCategory;
+            currentPlayerIndex = 0;
+            
+            // ট্যাব হাইলাইট
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.category-tab.${newCategory.toLowerCase()}`).classList.add('active');
+
+            displayCurrentPlayer();
+        }
+
+        // বর্তমান প্লেয়ার ডিসপ্লে
+        function displayCurrentPlayer() {
+            const screen = document.getElementById('playerScreen');
+            const currentPlayers = getCurrentCategoryPlayers();
+            
+            if (currentPlayers.length === 0) {
+                screen.innerHTML = '<div class="no-players">এই ক্যাটাগরিতে কোনো খেলোয়াড় নেই।</div>';
+                return;
+            }
+            
+            const player = currentPlayers[currentPlayerIndex];
+            const badgeClass = `badge-${player.category.toLowerCase()}`;
+            
+            // মূল্য ডিসপ্লে: ভিত্তি মূল্য এবং বিক্রিত মূল্য
+            const priceDisplay = player.auctionPrice 
+                ? `<div class="price-info-box">
+                        <div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div>
+                        <div class="sold-price-display">✅ বিক্রিত মূল্য: ${player.auctionPrice}</div>
+                    </div>`
+                : `<div class="price-info-box">
+                        <div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div>
+                        <div class="sold-price-display" style="color: #ea580c;">বিক্রি হয়নি</div>
+                    </div>`;
+            
+            // ছবির URL না থাকলে ফাঁকা থাকবে
+            const imageHTML = player.imageURL 
+                ? `<img src="${player.imageURL}" alt="${player.name}" class="player-image-large">`
+                : `<div class="player-image-large" style="background-color: #f3f4f6; border: 8px solid #9ca3af; display: flex; align-items: center; justify-content: center; font-size: 1.5em; color: #6b7280;">ছবি নেই</div>`;
+            
+            screen.innerHTML = `
+                ${imageHTML}
+                <div class="player-name-large">${player.name}</div>
+                <div class="player-category-badge ${badgeClass}">
+                    ${player.category} ক্যাটাগরি
+                </div>
+                ${priceDisplay}
+                <div class="navigation-buttons">
+                    <button class="nav-btn" onclick="previousPlayer()" 
+                            ${currentPlayerIndex === 0 ? 'disabled' : ''}>
+                        ⬅️ আগের
+                    </button>
+                    <button class="nav-btn" onclick="nextPlayer()" 
+                            ${currentPlayerIndex === currentPlayers.length - 1 ? 'disabled' : ''}>
+                        পরের ➡️
+                    </button>
+                </div>
+                <div class="player-counter">
+                    ${currentPlayerIndex + 1} / ${currentPlayers.length}
+                </div>
+            `;
+        }
+
+        // পরের প্লেয়ার
+        function nextPlayer() {
+            const currentPlayers = getCurrentCategoryPlayers();
+            if (currentPlayerIndex < currentPlayers.length - 1) {
+                currentPlayerIndex++;
+                displayCurrentPlayer();
+            }
+        }
+
+        // আগের প্লেয়ার
+        function previousPlayer() {
+            if (currentPlayerIndex > 0) {
+                currentPlayerIndex--;
+                displayCurrentPlayer();
+            }
+        }
+
+        // মূল্য সেট করুন (ব্যাংক কোড সিস্টেম)
+        function setAuctionPrice() {
+            const currentPlayers = getCurrentCategoryPlayers();
+            if (currentPlayers.length === 0) {
+                alert('⚠️ কোনো প্লেয়ার নেই!');
+                return;
+            }
+
+            const priceInput = document.getElementById('auctionPriceInput');
+            const price = priceInput.value.trim();
+
+            if (!price || isNaN(price) || parseInt(price) <= 0) {
+                alert('⚠️ সঠিক মূল্য লিখুন!');
+                return;
+            }
+
+            const player = currentPlayers[currentPlayerIndex];
+            
+            // মূল allPlayers অ্যারেতে প্লেয়ার খুঁজে আপডেট করা
+            // এখানে প্লেয়ারের নাম এবং ক্যাটাগরি উভয়ই ব্যবহার করা হচ্ছে যাতে একই নামের একাধিক প্লেয়ার থাকলেও সমস্যা না হয়
+            const playerIndexInAll = allPlayers.findIndex(p => p.name === player.name && p.category === player.category);
+            if (playerIndexInAll !== -1) {
+                allPlayers[playerIndexInAll].auctionPrice = price;
+                saveToStorage(); // স্বয়ংক্রিয়ভাবে সেভ করা হলো
+                displayCurrentPlayer();
+                priceInput.value = ''; // ইনপুট ফিল্ড খালি করা
+                alert(`✅ ${player.name}-এর বিক্রিত মূল্য ${price} সেট করা হয়েছে!`);
+            }
+        }
+
+        // রেজাল্ট শীট তৈরি ও ডিসপ্লে
+        function showResultSheet() {
+            const resultTableDiv = document.getElementById('resultSheetTable');
+            const resultSheetOverlay = document.getElementById('resultSheetOverlay');
+            
+            // সকল প্লেয়ারকে দেখানোর জন্য কোনো ফিল্টারিং করা হলো না
+            const playersToShow = allPlayers;
+
+            if (playersToShow.length === 0) {
+                resultTableDiv.innerHTML = '<p style="text-align: center; color: #dc2626; font-weight: bold;">কোনো প্লেয়ার ডেটা নেই।</p>';
+            } else {
+                let tableHTML = '<table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>স্ট্যাটাস</th></tr></thead><tbody>';
+                
+                playersToShow.forEach(player => {
+                    const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
+                    const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
+                    const statusColor = player.auctionPrice ? '#059669' : '#ea580c';
+
+                    tableHTML += `
+                        <tr>
+                            <td>${player.name}</td>
+                            <td>${player.category}</td>
+                            <td>${player.basePrice}</td>
+                            <td>${priceDisplay}</td>
+                            <td style="font-weight: bold; color: ${statusColor};">${status}</td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += '</tbody></table>';
+                resultTableDiv.innerHTML = tableHTML;
+            }
+            
+            resultSheetOverlay.style.display = 'flex';
+        }
+
+        // রেজাল্ট শীট লুকান
+        function hideResultSheet(event) {
+            if (event && event.target.id !== 'resultSheetOverlay') {
+                return;
+            }
+            document.getElementById('resultSheetOverlay').style.display = 'none';
+        }
+
+        // সকল ডেটা মুছে ফেলুন
+        function resetData() {
+            const confirmReset = confirm("আপনি কি নিশ্চিত যে আপনি সকল প্লেয়ারের ডেটা (বিক্রিত মূল্য সহ) মুছে ফেলতে চান? এই কাজটি ফিরিয়ে আনা যাবে না।");
+            if (confirmReset) {
+                localStorage.removeItem('cricketPlayers');
+                allPlayers = defaultPlayers;
+                saveToStorage();
+                displayCurrentPlayer();
+                alert("✅ সকল ডেটা সফলভাবে মুছে ফেলা হয়েছে এবং ডিফল্ট ডেটা লোড করা হয়েছে।");
+            }
+        }
+
+        // পেজ লোড হওয়ার পর ইনিশিয়ালাইজেশন
+        window.onload = init;
+    </script>
+</body>
+</html>
