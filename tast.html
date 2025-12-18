@@ -71,6 +71,7 @@
         .category-tab.a { border: 3px solid #dc2626; }
         .category-tab.b { border: 3px solid #ea580c; }
         .category-tab.c { border: 3px solid #f59e0b; }
+        .category-tab.icon { border: 3px solid #9333ea; }
 
         /* ব্যাংক প্যানেল */
         .bank-panel {
@@ -219,6 +220,11 @@
             color: white;
         }
 
+        .badge-icon {
+            background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+            color: white;
+        }
+
         .player-price-large {
             font-size: 2.5em;
             color: #059669;
@@ -244,6 +250,37 @@
             font-size: 2.5em;
             color: #dc2626;
             font-weight: bold;
+        }
+
+        .team-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .team-btn {
+            background: white;
+            color: #1f2937;
+            padding: 12px 25px;
+            border: 3px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .team-btn:hover {
+            transform: scale(1.05);
+            border-color: #9333ea;
+        }
+
+        .team-btn.selected {
+            background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+            color: white;
+            border-color: #9333ea;
         }
 
 
@@ -453,6 +490,9 @@
             <div class="category-tab c" onclick="changeCategory('C')">
                 ✨ সি ক্যাটাগরি
             </div>
+            <div class="category-tab icon" onclick="changeCategory('ICON')">
+                👑 আইকন ক্যাটাগরি
+            </div>
         </div>
 
         <!-- প্লেয়ার স্ক্রীন -->
@@ -476,6 +516,9 @@
         let allPlayers = [];
         let currentCategory = 'A';
         let currentPlayerIndex = 0;
+        
+        // টিমের তালিকা
+        const teams = ["Dumuria Kings", "Dumuria Strikers", "Dumuria Warriors", "Dumuria Titans"];
 
         /*
         ================================================================================
@@ -512,6 +555,12 @@
             { name: "শরিফুল ইসলাম", category: "C", basePrice: "50000", imageURL: "", auctionPrice: null },
             { name: "আফিফ হোসেন", category: "C", basePrice: "40000", imageURL: "", auctionPrice: null },
             { name: "নাসুম আহমেদ", category: "C", basePrice: "30000", imageURL: "", auctionPrice: null },
+
+            // ICON ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
+            { name: "সাকিব আল হাসান", category: "ICON", basePrice: "200000", imageURL: "", auctionPrice: null, team: null },
+            { name: "মুশফিকুর রহিম", category: "ICON", basePrice: "180000", imageURL: "", auctionPrice: null, team: null },
+            { name: "মাহমুদউল্লাহ রিয়াদ", category: "ICON", basePrice: "150000", imageURL: "", auctionPrice: null, team: null },
+            { name: "তাসকিন আহমেদ", category: "ICON", basePrice: "150000", imageURL: "", auctionPrice: null, team: null },
         ];
         
         // ইনিশিয়ালাইজেশন ফাংশন
@@ -571,11 +620,27 @@
             const player = currentPlayers[currentPlayerIndex];
             const badgeClass = `badge-${player.category.toLowerCase()}`;
             
+            // টিম সিলেক্টর (শুধুমাত্র যখন মূল্য সেট করা হয়নি)
+            let teamSelector = '';
+            if (!player.auctionPrice) {
+                teamSelector = `
+                    <div class="team-selector">
+                        ${teams.map(team => `
+                            <button class="team-btn ${player.team === team ? 'selected' : ''}" 
+                                    onclick="selectTeam('${team}')">
+                                ${team}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
             // মূল্য ডিসপ্লে: ভিত্তি মূল্য এবং বিক্রিত মূল্য
             const priceDisplay = player.auctionPrice 
                 ? `<div class="price-info-box">
                         <div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div>
                         <div class="sold-price-display">✅ বিক্রিত মূল্য: ${player.auctionPrice}</div>
+                        ${player.team ? `<div class="base-price-display" style="color: #9333ea; margin-top: 10px;">🏆 টিম: ${player.team}</div>` : ''}
                     </div>`
                 : `<div class="price-info-box">
                         <div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div>
@@ -594,6 +659,7 @@
                     ${player.category} ক্যাটাগরি
                 </div>
                 ${priceDisplay}
+                ${teamSelector}
                 <div class="navigation-buttons">
                     <button class="nav-btn" onclick="previousPlayer()" 
                             ${currentPlayerIndex === 0 ? 'disabled' : ''}>
@@ -623,6 +689,25 @@
         function previousPlayer() {
             if (currentPlayerIndex > 0) {
                 currentPlayerIndex--;
+                displayCurrentPlayer();
+            }
+        }
+
+        // টিম সিলেক্ট করুন
+        function selectTeam(teamName) {
+            const currentPlayers = getCurrentCategoryPlayers();
+            const player = currentPlayers[currentPlayerIndex];
+            
+            // মূল allPlayers অ্যারেতে প্লেয়ার খুঁজে আপডেট করা
+            const playerIndexInAll = allPlayers.findIndex(p => p.name === player.name && p.category === player.category);
+            if (playerIndexInAll !== -1) {
+                // যদি একই টিম আবার ক্লিক করা হয় তাহলে আনসিলেক্ট করা
+                if (allPlayers[playerIndexInAll].team === teamName) {
+                    allPlayers[playerIndexInAll].team = null;
+                } else {
+                    allPlayers[playerIndexInAll].team = teamName;
+                }
+                saveToStorage();
                 displayCurrentPlayer();
             }
         }
@@ -668,11 +753,12 @@
             if (playersToShow.length === 0) {
                 resultTableDiv.innerHTML = '<p style="text-align: center; color: #dc2626; font-weight: bold;">কোনো প্লেয়ার ডেটা নেই।</p>';
             } else {
-                let tableHTML = '<table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>স্ট্যাটাস</th></tr></thead><tbody>';
+                let tableHTML = '<table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>টিম</th><th>স্ট্যাটাস</th></tr></thead><tbody>';
                 
                 playersToShow.forEach(player => {
                     const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
                     const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
+                    const teamDisplay = player.team ? player.team : '---';
                     const statusColor = player.auctionPrice ? '#059669' : '#ea580c';
 
                     tableHTML += `
@@ -681,6 +767,7 @@
                             <td>${player.category}</td>
                             <td>${player.basePrice}</td>
                             <td>${priceDisplay}</td>
+                            <td style="font-weight: bold; color: #9333ea;">${teamDisplay}</td>
                             <td style="font-weight: bold; color: ${statusColor};">${status}</td>
                         </tr>
                     `;
