@@ -409,6 +409,63 @@
             background: #047857;
         }
 
+        /* PDF প্রিভিউ স্টাইল */
+        .pdf-preview {
+            display: none;
+            position: fixed;
+            left: -9999px;
+            top: 0;
+        }
+
+        .pdf-page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm;
+            background: white;
+            box-sizing: border-box;
+            page-break-after: always;
+            margin-bottom: 10px;
+        }
+
+        .pdf-page h1 {
+            text-align: center;
+            color: #1e5128;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .pdf-page table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .pdf-page th, .pdf-page td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .pdf-page th {
+            background-color: #1e5128;
+            color: white;
+            font-weight: bold;
+        }
+
+        .pdf-page tr:nth-child(even) {
+            background-color: #f3f4f6;
+        }
+
+        .pdf-page .sold {
+            color: #059669;
+            font-weight: bold;
+        }
+
+        .pdf-page .unsold {
+            color: #ea580c;
+            font-weight: bold;
+        }
+
         /* Responsive Design (Mobile Optimization) */
         @media (max-width: 600px) {
             body {
@@ -532,8 +589,12 @@
                 <button class="close-btn" onclick="hideResultSheet()">বন্ধ করুন</button>
             </div>
         </div>
+
+        <!-- PDF প্রিভিউ (লুকানো) -->
+        <div id="pdfPreview" class="pdf-preview"></div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         let allPlayers = [];
         let currentCategory = 'A';
@@ -840,70 +901,26 @@
         window.onload = init;
 
         // পিডিএফ ডাউনলোড ফাংশন
-        function downloadPDF() {
+        async function downloadPDF() {
             const playersToShow = allPlayers;
+            const playersPerPage = 20;
+            const totalPages = Math.ceil(playersToShow.length / playersPerPage);
             
-            // HTML কন্টেন্ট তৈরি
-            let htmlContent = `
-                <!DOCTYPE html>
-                <html lang="bn">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>নিলামের রেজাল্ট শীট</title>
-                    <style>
-                        @page {
-                            size: A4;
-                            margin: 15mm;
-                        }
-                        body {
-                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                            padding: 20px;
-                            direction: ltr;
-                            width: 210mm;
-                            margin: 0 auto;
-                        }
-                        h1 {
-                            text-align: center;
-                            color: #1e5128;
-                            margin-bottom: 30px;
-                            font-size: 24px;
-                        }
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin: 20px 0;
-                            font-size: 12px;
-                        }
-                        th, td {
-                            border: 1px solid #ddd;
-                            padding: 10px;
-                            text-align: left;
-                        }
-                        th {
-                            background-color: #1e5128;
-                            color: white;
-                            font-weight: bold;
-                        }
-                        tr:nth-child(even) {
-                            background-color: #f3f4f6;
-                        }
-                        .sold {
-                            color: #059669;
-                            font-weight: bold;
-                        }
-                        .unsold {
-                            color: #ea580c;
-                            font-weight: bold;
-                        }
-                        @media print {
-                            body {
-                                width: 100%;
-                            }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <h1>📊 নিলামের রেজাল্ট শীট</h1>
+            // প্রিভিউ কন্টেইনার
+            const previewContainer = document.getElementById('pdfPreview');
+            previewContainer.innerHTML = '';
+            previewContainer.style.display = 'block';
+            
+            // প্রতি পেজের জন্য HTML তৈরি
+            for (let pageNum = 0; pageNum < totalPages; pageNum++) {
+                const startIdx = pageNum * playersPerPage;
+                const endIdx = Math.min(startIdx + playersPerPage, playersToShow.length);
+                const pagePlayers = playersToShow.slice(startIdx, endIdx);
+                
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'pdf-page';
+                pageDiv.innerHTML = `
+                    <h1>📊 নিলামের রেজাল্ট শীট (পেজ ${pageNum + 1}/${totalPages})</h1>
                     <table>
                         <thead>
                             <tr>
@@ -916,45 +933,57 @@
                             </tr>
                         </thead>
                         <tbody>
-            `;
-            
-            playersToShow.forEach(player => {
-                const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
-                const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
-                const teamDisplay = player.team ? player.team : '---';
-                const statusClass = player.auctionPrice ? 'sold' : 'unsold';
-                
-                htmlContent += `
-                    <tr>
-                        <td>${player.name}</td>
-                        <td>${player.category}</td>
-                        <td>${player.basePrice}</td>
-                        <td>${priceDisplay}</td>
-                        <td>${teamDisplay}</td>
-                        <td class="${statusClass}">${status}</td>
-                    </tr>
-                `;
-            });
-            
-            htmlContent += `
+                            ${pagePlayers.map(player => {
+                                const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
+                                const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
+                                const teamDisplay = player.team ? player.team : '---';
+                                const statusClass = player.auctionPrice ? 'sold' : 'unsold';
+                                return `
+                                    <tr>
+                                        <td>${player.name}</td>
+                                        <td>${player.category}</td>
+                                        <td>${player.basePrice}</td>
+                                        <td>${priceDisplay}</td>
+                                        <td>${teamDisplay}</td>
+                                        <td class="${statusClass}">${status}</td>
+                                    </tr>
+                                `;
+                            }).join('')}
                         </tbody>
                     </table>
-                </body>
-                </html>
-            `;
+                `;
+                previewContainer.appendChild(pageDiv);
+            }
             
-            // Blob তৈরি করা
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
+            // অপেক্ষা করা যাতে DOM আপডেট হয়
+            await new Promise(resolve => setTimeout(resolve, 100));
             
-            // নতুন ট্যাবে খোলা
-            const link = document.createElement('a');
-            link.href = url;
-            link.target = '_blank';
-            link.click();
+            // প্রতিটি পেজকে ইমেজে কনভার্ট করে ডাউনলোড
+            const pages = previewContainer.querySelectorAll('.pdf-page');
+            for (let i = 0; i < pages.length; i++) {
+                const canvas = await html2canvas(pages[i], {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    width: 794, // A4 width in pixels at 96 DPI
+                    height: 1123 // A4 height in pixels at 96 DPI
+                });
+                
+                // Canvas থেকে image ডাউনলোড
+                const link = document.createElement('a');
+                link.download = `নিলাম-রেজাল্ট-পেজ-${i + 1}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // একটু দেরি করা যাতে ব্রাউজার সব ডাউনলোড হ্যান্ডল করতে পারে
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
             
-            // URL রিলিজ করা
-            setTimeout(() => URL.revokeObjectURL(url), 100);
+            // প্রিভিউ লুকানো
+            previewContainer.style.display = 'none';
+            previewContainer.innerHTML = '';
+            
+            alert(`✅ মোট ${pages.length}টি পেজ ইমেজ হিসেবে ডাউনলোড হয়েছে!`);
         }
     </script>
 </body>
