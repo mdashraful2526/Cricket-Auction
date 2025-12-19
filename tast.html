@@ -387,6 +387,28 @@
             margin: 0 auto;
         }
 
+        .result-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-download-pdf {
+            background: #059669;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .btn-download-pdf:hover {
+            background: #047857;
+        }
+
         /* Responsive Design (Mobile Optimization) */
         @media (max-width: 600px) {
             body {
@@ -456,11 +478,6 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>ক্রিকেট প্লেয়ার নিলাম</h1>
-            <p>সহজেই প্লেয়ারের মূল্য সেট করুন এবং রেজাল্ট দেখুন</p>
-        </div>
-
         <!-- ব্যাংক প্যানেল -->
         <div class="bank-panel">
             <h2>💸 নিলাম ব্যাংক</h2>
@@ -504,6 +521,11 @@
         <div class="result-sheet-overlay" id="resultSheetOverlay" onclick="hideResultSheet(event)">
             <div class="result-sheet-content" onclick="event.stopPropagation()">
                 <h2>📊 নিলামের রেজাল্ট শীট</h2>
+                <div class="result-actions">
+                    <button class="btn-download-pdf" onclick="downloadPDF()">
+                        📥 পিডিএফ ডাউনলোড করুন
+                    </button>
+                </div>
                 <div id="resultSheetTable">
                     <!-- রেজাল্ট টেবিল এখানে লোড হবে -->
                 </div>
@@ -539,29 +561,28 @@
         */
         const defaultPlayers = [
             // A ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
-            { name: "হামজা মোল্লা", category: "A", basePrice: "150000", imageURL: "https://vip.munnacodsit.xyz/mu/HamzaMulla.jpg", auctionPrice: null },
-            { name: "শিয়াব গাজী", category: "A", basePrice: "120000", imageURL: "https://vip.munnacodsit.xyz/mu/ShiabGazi.jpg", auctionPrice: null },
-            { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: "", auctionPrice: null },
-            { name: "মাশরাফি বিন মর্তুজা", category: "A", basePrice: "150000", imageURL: "", auctionPrice: null },
-            { name: "লিটন দাস", category: "A", basePrice: "120000", imageURL: "", auctionPrice: null },
-            { name: "মেহেদী হাসান মিরাজ", category: "A", basePrice: "100000", imageURL: null, auctionPrice: null },
+            { name: "হামজা মোল্লা", category: "A", basePrice: "150000", imageURL: "https://vip.munnacodsit.xyz/mu/HamzaMulla.jpg", auctionPrice: null, team: null },
+            { name: "শিয়াব গাজী", category: "A", basePrice: "120000", imageURL: "https://vip.munnacodsit.xyz/mu/ShiabGazi.jpg", auctionPrice: null, team: null },
+            { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: "", auctionPrice: null, team: null },
+            { name: "মাশরাফি বিন মর্তুজা", category: "A", basePrice: "150000", imageURL: "", auctionPrice: null, team: null },
+            { name: "লিটন দাস", category: "A", basePrice: "120000", imageURL: "", auctionPrice: null, team: null },
+            { name: "মেহেদী হাসান মিরাজ", category: "A", basePrice: "100000", imageURL: null, auctionPrice: null, team: null },
             
             // B ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
-            { name: "মোঃ মোবারক হোসেন মুন্না", category: "B", basePrice: "80000", imageURL: "https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg", auctionPrice: null },
-            { name: "মোঃ জিহাদ", category: "B", basePrice: "70000", imageURL: "https://vip.munnacodsit.xyz/mu/MdJihad.jpg", auctionPrice: null },
-            { name: "মুস্তাফিজুর রহমান", category: "B", basePrice: "60000", imageURL: "", auctionPrice: null },
+            { name: "মোঃ মোবারক হোসেন মুন্না", category: "B", basePrice: "80000", imageURL: "https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg", auctionPrice: null, team: null },
+            { name: "মোঃ জিহাদ", category: "B", basePrice: "70000", imageURL: "https://vip.munnacodsit.xyz/mu/MdJihad.jpg", auctionPrice: null, team: null },
+            { name: "মুস্তাফিজুর রহমান", category: "B", basePrice: "60000", imageURL: "", auctionPrice: null, team: null },
 
             // C ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
-            { name: "শরিফুল ইসলাম", category: "C", basePrice: "50000", imageURL: "", auctionPrice: null },
-            { name: "আফিফ হোসেন", category: "C", basePrice: "40000", imageURL: "", auctionPrice: null },
-            { name: "নাসুম আহমেদ", category: "C", basePrice: "30000", imageURL: "", auctionPrice: null },
+            { name: "শরিফুল ইসলাম", category: "C", basePrice: "50000", imageURL: "", auctionPrice: null, team: null },
+            { name: "আফিফ হোসেন", category: "C", basePrice: "40000", imageURL: "", auctionPrice: null, team: null },
+            { name: "নাসুম আহমেদ", category: "C", basePrice: "30000", imageURL: "", auctionPrice: null, team: null },
 
             // ICON ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
-            //{ name: "সাকিব আল হাসান", category: "ICON", basePrice: "200000", imageURL: "", auctionPrice: null, team: null },
-            //{ name: "মুশফিকুর রহিম", category: "ICON", basePrice: "180000", imageURL: "", auctionPrice: null, team: null },
-            //{ name: "মাহমুদউল্লাহ রিয়াদ", category: "ICON", basePrice: "150000", imageURL: "", auctionPrice: null, team: null },
-            //{ name: "তাসকিন আহমেদ", category: "ICON", basePrice: "150000", imageURL: "", auctionPrice: null, team: null },
-            { name: "মোঃ মোবারক হোসেন মুন্না", category: "B", basePrice: "80000", imageURL: "https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg", auctionPrice: null },
+            { name: "সাকিব আল হাসান", category: "ICON", basePrice: "200000", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Shakib_Al_Hasan_%28crop%29.jpg/800px-Shakib_Al_Hasan_%28crop%29.jpg", auctionPrice: null, team: null },
+            { name: "মুশফিকুর রহিম", category: "ICON", basePrice: "180000", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Mushfiqur_Rahim_2018_%28cropped%29.jpg/800px-Mushfiqur_Rahim_2018_%28cropped%29.jpg", auctionPrice: null, team: null },
+            { name: "মাহমুদউল্লাহ রিয়াদ", category: "ICON", basePrice: "150000", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Mahmudullah_Riyad_in_2018.jpg/800px-Mahmudullah_Riyad_in_2018.jpg", auctionPrice: null, team: null },
+            { name: "তাসকিন আহমেদ", category: "ICON", basePrice: "150000", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Taskin_Ahmed_%28cropped%29.jpg/800px-Taskin_Ahmed_%28cropped%29.jpg", auctionPrice: null, team: null },
         ];
         
         // ইনিশিয়ালাইজেশন ফাংশন
@@ -574,11 +595,19 @@
         function loadFromStorage() {
             const storedPlayers = localStorage.getItem('cricketPlayers');
             if (storedPlayers) {
-                // লোকাল স্টোরেজে সেভ করা ডেটা লোড করা হলো
-                allPlayers = JSON.parse(storedPlayers);
+                const stored = JSON.parse(storedPlayers);
+                // চেক করি ICON ক্যাটাগরি আছে কিনা
+                const hasIconCategory = stored.some(p => p.category === 'ICON');
+                if (!hasIconCategory) {
+                    // যদি ICON ক্যাটাগরি না থাকে, তাহলে ডিফল্ট ডেটা লোড করি
+                    allPlayers = JSON.parse(JSON.stringify(defaultPlayers));
+                    saveToStorage();
+                } else {
+                    allPlayers = stored;
+                }
             } else {
                 // যদি লোকাল স্টোরেজে কোনো ডেটা না থাকে, তবে ডিফল্ট ডেটা ব্যবহার করা হলো
-                allPlayers = defaultPlayers;
+                allPlayers = JSON.parse(JSON.stringify(defaultPlayers));
                 saveToStorage();
             }
         }
@@ -794,7 +823,7 @@
             const confirmReset = confirm("আপনি কি নিশ্চিত যে আপনি সকল প্লেয়ারের ডেটা (বিক্রিত মূল্য সহ) মুছে ফেলতে চান? এই কাজটি ফিরিয়ে আনা যাবে না।");
             if (confirmReset) {
                 localStorage.removeItem('cricketPlayers');
-                allPlayers = defaultPlayers;
+                allPlayers = JSON.parse(JSON.stringify(defaultPlayers));
                 saveToStorage();
                 displayCurrentPlayer();
                 alert("✅ সকল ডেটা সফলভাবে মুছে ফেলা হয়েছে এবং ডিফল্ট ডেটা লোড করা হয়েছে।");
@@ -803,6 +832,111 @@
 
         // পেজ লোড হওয়ার পর ইনিশিয়ালাইজেশন
         window.onload = init;
+
+        // পিডিএফ ডাউনলোড ফাংশন
+        function downloadPDF() {
+            const playersToShow = allPlayers;
+            
+            // HTML কন্টেন্ট তৈরি
+            let htmlContent = `
+                <!DOCTYPE html>
+                <html lang="bn">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>নিলামের রেজাল্ট শীট</title>
+                    <style>
+                        body {
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            padding: 20px;
+                            direction: ltr;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: #1e5128;
+                            margin-bottom: 30px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 20px 0;
+                        }
+                        th, td {
+                            border: 1px solid #ddd;
+                            padding: 12px;
+                            text-align: left;
+                        }
+                        th {
+                            background-color: #1e5128;
+                            color: white;
+                            font-weight: bold;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #f3f4f6;
+                        }
+                        .sold {
+                            color: #059669;
+                            font-weight: bold;
+                        }
+                        .unsold {
+                            color: #ea580c;
+                            font-weight: bold;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>📊 নিলামের রেজাল্ট শীট</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>নাম</th>
+                                <th>ক্যাটাগরি</th>
+                                <th>ভিত্তি মূল্য</th>
+                                <th>বিক্রিত মূল্য</th>
+                                <th>টিম</th>
+                                <th>স্ট্যাটাস</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            playersToShow.forEach(player => {
+                const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
+                const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
+                const teamDisplay = player.team ? player.team : '---';
+                const statusClass = player.auctionPrice ? 'sold' : 'unsold';
+                
+                htmlContent += `
+                    <tr>
+                        <td>${player.name}</td>
+                        <td>${player.category}</td>
+                        <td>${player.basePrice}</td>
+                        <td>${priceDisplay}</td>
+                        <td>${teamDisplay}</td>
+                        <td class="${statusClass}">${status}</td>
+                    </tr>
+                `;
+            });
+            
+            htmlContent += `
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `;
+            
+            // Blob তৈরি করা
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            
+            // নতুন ট্যাবে খোলা
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.click();
+            
+            // URL রিলিজ করা
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+        }
     </script>
 </body>
 </html>
