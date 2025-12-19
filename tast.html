@@ -760,6 +760,12 @@
 
             const player = currentPlayers[currentPlayerIndex];
             
+            // টিম সিলেক্ট করা আছে কিনা চেক করা
+            if (!player.team) {
+                alert('⚠️ প্রথমে একটি টিম সিলেক্ট করুন!');
+                return;
+            }
+            
             // মূল allPlayers অ্যারেতে প্লেয়ার খুঁজে আপডেট করা
             // এখানে প্লেয়ারের নাম এবং ক্যাটাগরি উভয়ই ব্যবহার করা হচ্ছে যাতে একই নামের একাধিক প্লেয়ার থাকলেও সমস্যা না হয়
             const playerIndexInAll = allPlayers.findIndex(p => p.name === player.name && p.category === player.category);
@@ -768,7 +774,7 @@
                 saveToStorage(); // স্বয়ংক্রিয়ভাবে সেভ করা হলো
                 displayCurrentPlayer();
                 priceInput.value = ''; // ইনপুট ফিল্ড খালি করা
-                alert(`✅ ${player.name}-এর বিক্রিত মূল্য ${price} সেট করা হয়েছে!`);
+                alert(`✅ ${player.name}-এর বিক্রিত মূল্য ${price} সেট করা হয়েছে! টিম: ${player.team}`);
             }
         }
 
@@ -845,24 +851,32 @@
                     <meta charset="UTF-8">
                     <title>নিলামের রেজাল্ট শীট</title>
                     <style>
+                        @page {
+                            size: A4;
+                            margin: 15mm;
+                        }
                         body {
                             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                             padding: 20px;
                             direction: ltr;
+                            width: 210mm;
+                            margin: 0 auto;
                         }
                         h1 {
                             text-align: center;
                             color: #1e5128;
                             margin-bottom: 30px;
+                            font-size: 24px;
                         }
                         table {
                             width: 100%;
                             border-collapse: collapse;
                             margin: 20px 0;
+                            font-size: 12px;
                         }
                         th, td {
                             border: 1px solid #ddd;
-                            padding: 12px;
+                            padding: 10px;
                             text-align: left;
                         }
                         th {
@@ -880,6 +894,11 @@
                         .unsold {
                             color: #ea580c;
                             font-weight: bold;
+                        }
+                        @media print {
+                            body {
+                                width: 100%;
+                            }
                         }
                     </style>
                 </head>
