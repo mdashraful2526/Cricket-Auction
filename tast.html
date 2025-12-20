@@ -18,27 +18,11 @@
             padding: 20px;
         }
 
-        .header {
-            background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* ক্যাটাগরি ট্যাব */
         .category-tabs {
             display: flex;
             gap: 15px;
@@ -73,7 +57,6 @@
         .category-tab.c { border: 3px solid #f59e0b; }
         .category-tab.icon { border: 3px solid #9333ea; }
 
-        /* ব্যাংক প্যানেল */
         .bank-panel {
             background: white;
             padding: 25px;
@@ -139,15 +122,6 @@
             transition: background 0.3s;
         }
 
-        /* .btn-edit-price {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .btn-edit-price:hover {
-            background: #d97706;
-        } */
-
         .btn-result-sheet {
             background: #0284c7;
             color: white;
@@ -166,7 +140,6 @@
             background: #991b1b;
         }
 
-        /* প্লেয়ার স্ক্রীন */
         .player-screen {
             background: white;
             border-radius: 15px;
@@ -225,13 +198,6 @@
             color: white;
         }
 
-        .player-price-large {
-            font-size: 2.5em;
-            color: #059669;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
-        
         .price-info-box {
             display: flex;
             flex-direction: column;
@@ -283,7 +249,6 @@
             border-color: #9333ea;
         }
 
-
         .navigation-buttons {
             display: flex;
             gap: 20px;
@@ -326,7 +291,6 @@
             padding: 100px 20px;
         }
 
-        /* রেজাল্ট শীট স্টাইল */
         .result-sheet-overlay {
             position: fixed;
             top: 0;
@@ -354,6 +318,112 @@
             color: #1e5128;
             margin-bottom: 20px;
             text-align: center;
+        }
+
+        .team-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .team-tab {
+            background: white;
+            color: #1f2937;
+            padding: 12px 20px;
+            border: 3px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .team-tab:hover {
+            transform: scale(1.05);
+            border-color: #9333ea;
+        }
+
+        .team-tab.active-team {
+            background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+            color: white;
+            border-color: #9333ea;
+        }
+
+        .view-tabs {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .view-tab {
+            background: white;
+            color: #1f2937;
+            padding: 12px 30px;
+            border: 3px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .view-tab:hover {
+            transform: scale(1.05);
+            border-color: #0284c7;
+        }
+
+        .view-tab.active-view {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: white;
+            border-color: #0284c7;
+        }
+
+        .team-players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .player-card {
+            background: white;
+            border: 3px solid #9333ea;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .player-card-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 10px;
+            border: 4px solid #9333ea;
+        }
+
+        .player-card-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .player-card-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #059669;
+        }
+
+        .no-team-players {
+            text-align: center;
+            color: #6b7280;
+            font-size: 1.2em;
+            padding: 40px;
         }
 
         .result-sheet-content table {
@@ -409,7 +479,6 @@
             background: #047857;
         }
 
-        /* PDF প্রিভিউ স্টাইল */
         .pdf-preview {
             display: none;
             position: fixed;
@@ -466,19 +535,9 @@
             font-weight: bold;
         }
 
-        /* Responsive Design (Mobile Optimization) */
         @media (max-width: 600px) {
             body {
                 padding: 10px;
-            }
-
-            .header {
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-
-            .header h1 {
-                font-size: 1.8em;
             }
 
             .category-tabs {
@@ -526,16 +585,11 @@
             .player-category-badge {
                 font-size: 1.2em;
             }
-
-            .player-price-large {
-                font-size: 2em;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- ব্যাংক প্যানেল -->
         <div class="bank-panel">
             <h2>💸 নিলাম ব্যাংক</h2>
             <div class="bank-input-group">
@@ -543,7 +597,6 @@
                 <button onclick="setAuctionPrice()">মূল্য সেট করুন</button>
             </div>
             <div class="bank-actions">
-                <!-- মূল্য এডিট করুন বাটনটি মুছে ফেলা হলো -->
                 <button class="btn-result-sheet" onclick="showResultSheet()">
                     রেজাল্ট শীট দেখুন
                 </button>
@@ -553,7 +606,6 @@
             </div>
         </div>
 
-        <!-- ক্যাটাগরি ট্যাব -->
         <div class="category-tabs">
             <div class="category-tab a active" onclick="changeCategory('A')">
                 🌟 এ ক্যাটাগরি
@@ -569,29 +621,52 @@
             </div>
         </div>
 
-        <!-- প্লেয়ার স্ক্রীন -->
-        <div class="player-screen" id="playerScreen">
-            <!-- প্লেয়ার ডেটা এখানে লোড হবে -->
-        </div>
+        <div class="player-screen" id="playerScreen"></div>
 
-        <!-- রেজাল্ট শীট ওভারলে -->
         <div class="result-sheet-overlay" id="resultSheetOverlay" onclick="hideResultSheet(event)">
             <div class="result-sheet-content" onclick="event.stopPropagation()">
                 <h2>📊 নিলামের রেজাল্ট শীট</h2>
+                
+                <div class="view-tabs">
+                    <div class="view-tab active-view" onclick="changeView('all')">
+                        সম্পূর্ণ রেজাল্ট
+                    </div>
+                    <div class="view-tab" onclick="changeView('team')">
+                        টিম অনুযায়ী
+                    </div>
+                </div>
+
+                <div id="teamTabsContainer" style="display: none;">
+                    <div class="team-tabs">
+                        <div class="team-tab active-team" onclick="showTeamPlayers('Dumuria Kings')">
+                            Dumuria Kings
+                        </div>
+                        <div class="team-tab" onclick="showTeamPlayers('Dumuria Strikers')">
+                            Dumuria Strikers
+                        </div>
+                        <div class="team-tab" onclick="showTeamPlayers('Dumuria Warriors')">
+                            Dumuria Warriors
+                        </div>
+                        <div class="team-tab" onclick="showTeamPlayers('Dumuria Titans')">
+                            Dumuria Titans
+                        </div>
+                    </div>
+                </div>
+
                 <div class="result-actions">
-                    <button class="btn-download-pdf" onclick="downloadPDF()">
-                        📥 পিডিএফ ডাউনলোড করুন
+                    <button class="btn-download-pdf" id="downloadBtn" onclick="downloadAllResult()">
+                        📥 সম্পূর্ণ রেজাল্ট ডাউনলোড করুন
                     </button>
                 </div>
-                <div id="resultSheetTable">
-                    <!-- রেজাল্ট টেবিল এখানে লোড হবে -->
-                </div>
+
+                <div id="resultContainer"></div>
+
                 <button class="close-btn" onclick="hideResultSheet()">বন্ধ করুন</button>
             </div>
         </div>
 
-        <!-- PDF প্রিভিউ (লুকানো) -->
         <div id="pdfPreview" class="pdf-preview"></div>
+        <div id="teamImagePreview" class="pdf-preview"></div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -599,106 +674,69 @@
         let allPlayers = [];
         let currentCategory = 'A';
         let currentPlayerIndex = 0;
-        
-        // টিমের তালিকা
+        let currentTeam = 'Dumuria Kings';
+        let currentView = 'all';
         const teams = ["Dumuria Kings", "Dumuria Strikers", "Dumuria Warriors", "Dumuria Titans"];
 
-        /*
-        ================================================================================
-        খেলোয়াড় ডেটা এডিট করার অংশ (আপনার "ব্যাকএন্ড")
-        ================================================================================
-        
-        নতুন খেলোয়াড় যোগ করতে বা বর্তমান খেলোয়াড়ের তথ্য পরিবর্তন করতে, 
-        নিচের `defaultPlayers` অ্যারেটি এডিট করুন।
-        
-        প্রতিটি খেলোয়াড়ের জন্য নিম্নলিখিত তথ্যগুলি প্রয়োজন:
-        1. name: খেলোয়াড়ের নাম (যেমন: "সাকিব আল হাসান")
-        2. category: ক্যাটাগরি (A, B, বা C)
-        3. basePrice: খেলোয়াড়ের ভিত্তি মূল্য (যেমন: "150000")
-        4. imageURL: ছবির URL (যদি ছবি না থাকে তবে ফাঁকা স্ট্রিং "" রাখুন)
-        5. auctionPrice: বিক্রিত মূল্য (প্রাথমিকভাবে null রাখুন, নিলামের সময় সেট হবে)
-        
-        নোট: আপনি চাইলে প্রতিটি ক্যাটাগরিতে একাধিক প্লেয়ার যোগ করতে পারবেন।
-        */
         const defaultPlayers = [
-            // A ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
             { name: "হামজা মোল্লা", category: "A", basePrice: "150000", imageURL: "https://vip.munnacodsit.xyz/mu/HamzaMulla.jpg", auctionPrice: null, team: null },
             { name: "শিয়াব গাজী", category: "A", basePrice: "120000", imageURL: "https://vip.munnacodsit.xyz/mu/ShiabGazi.jpg", auctionPrice: null, team: null },
             { name: "তামিম ইকবাল", category: "A", basePrice: "100000", imageURL: "", auctionPrice: null, team: null },
             { name: "মাশরাফি বিন মর্তুজা", category: "A", basePrice: "150000", imageURL: "", auctionPrice: null, team: null },
             { name: "লিটন দাস", category: "A", basePrice: "120000", imageURL: "", auctionPrice: null, team: null },
             { name: "মেহেদী হাসান মিরাজ", category: "A", basePrice: "100000", imageURL: null, auctionPrice: null, team: null },
-            
-            // B ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
             { name: "মোঃ মোবারক হোসেন মুন্না", category: "B", basePrice: "80000", imageURL: "https://vip.munnacodsit.xyz/mu/MUNNAPRO.jpg", auctionPrice: null, team: null },
             { name: "মোঃ জিহাদ", category: "B", basePrice: "70000", imageURL: "https://vip.munnacodsit.xyz/mu/MdJihad.jpg", auctionPrice: null, team: null },
             { name: "মুস্তাফিজুর রহমান", category: "B", basePrice: "60000", imageURL: "", auctionPrice: null, team: null },
-
-            // C ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
             { name: "শরিফুল ইসলাম", category: "C", basePrice: "50000", imageURL: "", auctionPrice: null, team: null },
             { name: "আফিফ হোসেন", category: "C", basePrice: "40000", imageURL: "", auctionPrice: null, team: null },
             { name: "নাসুম আহমেদ", category: "C", basePrice: "30000", imageURL: "", auctionPrice: null, team: null },
-
-            // ICON ক্যাটাগরি (এখানে আরও প্লেয়ার যোগ করতে পারবেন)
             { name: "সাকিব আল হাসান", category: "ICON", basePrice: "200000", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Shakib_Al_Hasan_%28crop%29.jpg/800px-Shakib_Al_Hasan_%28crop%29.jpg", auctionPrice: null, team: null },
             { name: "মুশফিকুর রহিম", category: "ICON", basePrice: "180000", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Mushfiqur_Rahim_2018_%28cropped%29.jpg/800px-Mushfiqur_Rahim_2018_%28cropped%29.jpg", auctionPrice: null, team: null },
             { name: "মাহমুদউল্লাহ রিয়াদ", category: "ICON", basePrice: "150000", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Mahmudullah_Riyad_in_2018.jpg/800px-Mahmudullah_Riyad_in_2018.jpg", auctionPrice: null, team: null },
             { name: "তাসকিন আহমেদ", category: "ICON", basePrice: "150000", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Taskin_Ahmed_%28cropped%29.jpg/800px-Taskin_Ahmed_%28cropped%29.jpg", auctionPrice: null, team: null },
         ];
         
-        // ইনিশিয়ালাইজেশন ফাংশন
         function init() {
             loadFromStorage();
             displayCurrentPlayer();
         }
 
-        // প্লেয়ার ডেটা লোড
         function loadFromStorage() {
             const storedPlayers = localStorage.getItem('cricketPlayers');
             if (storedPlayers) {
                 const stored = JSON.parse(storedPlayers);
-                // চেক করি ICON ক্যাটাগরি আছে কিনা
                 const hasIconCategory = stored.some(p => p.category === 'ICON');
                 if (!hasIconCategory) {
-                    // যদি ICON ক্যাটাগরি না থাকে, তাহলে ডিফল্ট ডেটা লোড করি
                     allPlayers = JSON.parse(JSON.stringify(defaultPlayers));
                     saveToStorage();
                 } else {
                     allPlayers = stored;
                 }
             } else {
-                // যদি লোকাল স্টোরেজে কোনো ডেটা না থাকে, তবে ডিফল্ট ডেটা ব্যবহার করা হলো
                 allPlayers = JSON.parse(JSON.stringify(defaultPlayers));
                 saveToStorage();
             }
         }
 
-        // প্লেয়ার ডেটা সেভ
         function saveToStorage() {
-            // সকল ডেটা স্বয়ংক্রিয়ভাবে সেভ করা হলো
             localStorage.setItem('cricketPlayers', JSON.stringify(allPlayers));
         }
 
-        // বর্তমান ক্যাটাগরির প্লেয়ার
         function getCurrentCategoryPlayers() {
             return allPlayers.filter(player => player.category === currentCategory);
         }
 
-        // ক্যাটাগরি পরিবর্তন
         function changeCategory(newCategory) {
             currentCategory = newCategory;
             currentPlayerIndex = 0;
-            
-            // ট্যাব হাইলাইট
             document.querySelectorAll('.category-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             document.querySelector(`.category-tab.${newCategory.toLowerCase()}`).classList.add('active');
-
             displayCurrentPlayer();
         }
 
-        // বর্তমান প্লেয়ার ডিসপ্লে
         function displayCurrentPlayer() {
             const screen = document.getElementById('playerScreen');
             const currentPlayers = getCurrentCategoryPlayers();
@@ -711,63 +749,22 @@
             const player = currentPlayers[currentPlayerIndex];
             const badgeClass = `badge-${player.category.toLowerCase()}`;
             
-            // টিম সিলেক্টর (শুধুমাত্র যখন মূল্য সেট করা হয়নি)
             let teamSelector = '';
             if (!player.auctionPrice) {
-                teamSelector = `
-                    <div class="team-selector">
-                        ${teams.map(team => `
-                            <button class="team-btn ${player.team === team ? 'selected' : ''}" 
-                                    onclick="selectTeam('${team}')">
-                                ${team}
-                            </button>
-                        `).join('')}
-                    </div>
-                `;
+                teamSelector = `<div class="team-selector">${teams.map(team => `<button class="team-btn ${player.team === team ? 'selected' : ''}" onclick="selectTeam('${team}')">${team}</button>`).join('')}</div>`;
             }
             
-            // মূল্য ডিসপ্লে: ভিত্তি মূল্য এবং বিক্রিত মূল্য
             const priceDisplay = player.auctionPrice 
-                ? `<div class="price-info-box">
-                        <div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div>
-                        <div class="sold-price-display">✅ বিক্রিত মূল্য: ${player.auctionPrice}</div>
-                        ${player.team ? `<div class="base-price-display" style="color: #9333ea; margin-top: 10px;">🏆 টিম: ${player.team}</div>` : ''}
-                    </div>`
-                : `<div class="price-info-box">
-                        <div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div>
-                        <div class="sold-price-display" style="color: #ea580c;">বিক্রি হয়নি</div>
-                    </div>`;
+                ? `<div class="price-info-box"><div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div><div class="sold-price-display">✅ বিক্রিত মূল্য: ${player.auctionPrice}</div>${player.team ? `<div class="base-price-display" style="color: #9333ea; margin-top: 10px;">🏆 টিম: ${player.team}</div>` : ''}</div>`
+                : `<div class="price-info-box"><div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div><div class="sold-price-display" style="color: #ea580c;">বিক্রি হয়নি</div></div>`;
             
-            // ছবির URL না থাকলে ফাঁকা থাকবে
             const imageHTML = player.imageURL 
                 ? `<img src="${player.imageURL}" alt="${player.name}" class="player-image-large">`
                 : `<div class="player-image-large" style="background-color: #f3f4f6; border: 8px solid #9ca3af; display: flex; align-items: center; justify-content: center; font-size: 1.5em; color: #6b7280;">ছবি নেই</div>`;
             
-            screen.innerHTML = `
-                ${imageHTML}
-                <div class="player-name-large">${player.name}</div>
-                <div class="player-category-badge ${badgeClass}">
-                    ${player.category} ক্যাটাগরি
-                </div>
-                ${priceDisplay}
-                ${teamSelector}
-                <div class="navigation-buttons">
-                    <button class="nav-btn" onclick="previousPlayer()" 
-                            ${currentPlayerIndex === 0 ? 'disabled' : ''}>
-                        ⬅️ আগের
-                    </button>
-                    <button class="nav-btn" onclick="nextPlayer()" 
-                            ${currentPlayerIndex === currentPlayers.length - 1 ? 'disabled' : ''}>
-                        পরের ➡️
-                    </button>
-                </div>
-                <div class="player-counter">
-                    ${currentPlayerIndex + 1} / ${currentPlayers.length}
-                </div>
-            `;
+            screen.innerHTML = `${imageHTML}<div class="player-name-large">${player.name}</div><div class="player-category-badge ${badgeClass}">${player.category} ক্যাটাগরি</div>${priceDisplay}${teamSelector}<div class="navigation-buttons"><button class="nav-btn" onclick="previousPlayer()" ${currentPlayerIndex === 0 ? 'disabled' : ''}>⬅️ আগের</button><button class="nav-btn" onclick="nextPlayer()" ${currentPlayerIndex === currentPlayers.length - 1 ? 'disabled' : ''}>পরের ➡️</button></div><div class="player-counter">${currentPlayerIndex + 1} / ${currentPlayers.length}</div>`;
         }
 
-        // পরের প্লেয়ার
         function nextPlayer() {
             const currentPlayers = getCurrentCategoryPlayers();
             if (currentPlayerIndex < currentPlayers.length - 1) {
@@ -776,7 +773,6 @@
             }
         }
 
-        // আগের প্লেয়ার
         function previousPlayer() {
             if (currentPlayerIndex > 0) {
                 currentPlayerIndex--;
@@ -784,15 +780,11 @@
             }
         }
 
-        // টিম সিলেক্ট করুন
         function selectTeam(teamName) {
             const currentPlayers = getCurrentCategoryPlayers();
             const player = currentPlayers[currentPlayerIndex];
-            
-            // মূল allPlayers অ্যারেতে প্লেয়ার খুঁজে আপডেট করা
             const playerIndexInAll = allPlayers.findIndex(p => p.name === player.name && p.category === player.category);
             if (playerIndexInAll !== -1) {
-                // যদি একই টিম আবার ক্লিক করা হয় তাহলে আনসিলেক্ট করা
                 if (allPlayers[playerIndexInAll].team === teamName) {
                     allPlayers[playerIndexInAll].team = null;
                 } else {
@@ -803,81 +795,134 @@
             }
         }
 
-        // মূল্য সেট করুন (ব্যাংক কোড সিস্টেম)
         function setAuctionPrice() {
             const currentPlayers = getCurrentCategoryPlayers();
             if (currentPlayers.length === 0) {
                 alert('⚠️ কোনো প্লেয়ার নেই!');
                 return;
             }
-
             const priceInput = document.getElementById('auctionPriceInput');
             const price = priceInput.value.trim();
-
             if (!price || isNaN(price) || parseInt(price) <= 0) {
                 alert('⚠️ সঠিক মূল্য লিখুন!');
                 return;
             }
-
             const player = currentPlayers[currentPlayerIndex];
-            
-            // টিম সিলেক্ট করা আছে কিনা চেক করা
             if (!player.team) {
                 alert('⚠️ প্রথমে একটি টিম সিলেক্ট করুন!');
                 return;
             }
-            
-            // মূল allPlayers অ্যারেতে প্লেয়ার খুঁজে আপডেট করা
-            // এখানে প্লেয়ারের নাম এবং ক্যাটাগরি উভয়ই ব্যবহার করা হচ্ছে যাতে একই নামের একাধিক প্লেয়ার থাকলেও সমস্যা না হয়
             const playerIndexInAll = allPlayers.findIndex(p => p.name === player.name && p.category === player.category);
             if (playerIndexInAll !== -1) {
                 allPlayers[playerIndexInAll].auctionPrice = price;
-                saveToStorage(); // স্বয়ংক্রিয়ভাবে সেভ করা হলো
+                saveToStorage();
                 displayCurrentPlayer();
-                priceInput.value = ''; // ইনপুট ফিল্ড খালি করা
+                priceInput.value = '';
                 alert(`✅ ${player.name}-এর বিক্রিত মূল্য ${price} সেট করা হয়েছে! টিম: ${player.team}`);
             }
         }
 
-        // রেজাল্ট শীট তৈরি ও ডিসপ্লে
         function showResultSheet() {
-            const resultTableDiv = document.getElementById('resultSheetTable');
             const resultSheetOverlay = document.getElementById('resultSheetOverlay');
+            currentView = 'all';
+            currentTeam = 'Dumuria Kings';
             
-            // সকল প্লেয়ারকে দেখানোর জন্য কোনো ফিল্টারিং করা হলো না
-            const playersToShow = allPlayers;
+            document.querySelectorAll('.view-tab').forEach(tab => {
+                tab.classList.remove('active-view');
+            });
+            document.querySelectorAll('.view-tab')[0].classList.add('active-view');
+            
+            document.getElementById('teamTabsContainer').style.display = 'none';
+            document.getElementById('downloadBtn').textContent = '📥 সম্পূর্ণ রেজাল্ট ডাউনলোড করুন';
+            document.getElementById('downloadBtn').onclick = downloadAllResult;
+            
+            showAllResult();
+            resultSheetOverlay.style.display = 'flex';
+        }
 
+        function changeView(viewType) {
+            currentView = viewType;
+            
+            document.querySelectorAll('.view-tab').forEach(tab => {
+                tab.classList.remove('active-view');
+            });
+            event.target.classList.add('active-view');
+            
+            if (viewType === 'all') {
+                document.getElementById('teamTabsContainer').style.display = 'none';
+                document.getElementById('downloadBtn').textContent = '📥 সম্পূর্ণ রেজাল্ট ডাউনলোড করুন';
+                document.getElementById('downloadBtn').onclick = downloadAllResult;
+                showAllResult();
+            } else {
+                document.getElementById('teamTabsContainer').style.display = 'block';
+                document.getElementById('downloadBtn').textContent = '📥 টিম ইমেজ ডাউনলোড করুন';
+                document.getElementById('downloadBtn').onclick = downloadTeamImage;
+                
+                document.querySelectorAll('.team-tab').forEach(tab => {
+                    tab.classList.remove('active-team');
+                });
+                document.querySelectorAll('.team-tab')[0].classList.add('active-team');
+                
+                currentTeam = 'Dumuria Kings';
+                showTeamPlayers('Dumuria Kings');
+            }
+        }
+
+        function showAllResult() {
+            const resultContainer = document.getElementById('resultContainer');
+            const playersToShow = allPlayers;
+            
             if (playersToShow.length === 0) {
-                resultTableDiv.innerHTML = '<p style="text-align: center; color: #dc2626; font-weight: bold;">কোনো প্লেয়ার ডেটা নেই।</p>';
+                resultContainer.innerHTML = '<p style="text-align: center; color: #dc2626; font-weight: bold;">কোনো প্লেয়ার ডেটা নেই।</p>';
             } else {
                 let tableHTML = '<table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>টিম</th><th>স্ট্যাটাস</th></tr></thead><tbody>';
-                
                 playersToShow.forEach(player => {
                     const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
                     const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
                     const teamDisplay = player.team ? player.team : '---';
                     const statusColor = player.auctionPrice ? '#059669' : '#ea580c';
-
-                    tableHTML += `
-                        <tr>
-                            <td>${player.name}</td>
-                            <td>${player.category}</td>
-                            <td>${player.basePrice}</td>
-                            <td>${priceDisplay}</td>
-                            <td style="font-weight: bold; color: #9333ea;">${teamDisplay}</td>
-                            <td style="font-weight: bold; color: ${statusColor};">${status}</td>
-                        </tr>
-                    `;
+                    tableHTML += `<tr><td>${player.name}</td><td>${player.category}</td><td>${player.basePrice}</td><td>${priceDisplay}</td><td style="font-weight: bold; color: #9333ea;">${teamDisplay}</td><td style="font-weight: bold; color: ${statusColor};">${status}</td></tr>`;
                 });
-                
                 tableHTML += '</tbody></table>';
-                resultTableDiv.innerHTML = tableHTML;
+                resultContainer.innerHTML = tableHTML;
             }
-            
-            resultSheetOverlay.style.display = 'flex';
         }
 
-        // রেজাল্ট শীট লুকান
+        function showTeamPlayers(teamName) {
+            currentTeam = teamName;
+            
+            document.querySelectorAll('.team-tab').forEach(tab => {
+                tab.classList.remove('active-team');
+            });
+            event.target.classList.add('active-team');
+            
+            const resultContainer = document.getElementById('resultContainer');
+            const teamPlayers = allPlayers.filter(p => p.team === teamName && p.auctionPrice);
+            
+            if (teamPlayers.length === 0) {
+                resultContainer.innerHTML = '<div class="no-team-players">এই টিমে এখনো কোনো প্লেয়ার নেই।</div>';
+                return;
+            }
+            
+            let html = '<div class="team-players-grid">';
+            teamPlayers.forEach(player => {
+                const imageHTML = player.imageURL 
+                    ? `<img src="${player.imageURL}" alt="${player.name}" class="player-card-image">`
+                    : `<div class="player-card-image" style="background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; font-size: 1em; color: #6b7280;">ছবি নেই</div>`;
+                
+                html += `
+                    <div class="player-card">
+                        ${imageHTML}
+                        <div class="player-card-name">${player.name}</div>
+                        <div class="player-card-price">💰 ${player.auctionPrice} টাকা</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            resultContainer.innerHTML = html;
+        }
+
         function hideResultSheet(event) {
             if (event && event.target.id !== 'resultSheetOverlay') {
                 return;
@@ -885,7 +930,6 @@
             document.getElementById('resultSheetOverlay').style.display = 'none';
         }
 
-        // সকল ডেটা মুছে ফেলুন
         function resetData() {
             const confirmReset = confirm("আপনি কি নিশ্চিত যে আপনি সকল প্লেয়ারের ডেটা (বিক্রিত মূল্য সহ) মুছে ফেলতে চান? এই কাজটি ফিরিয়ে আনা যাবে না।");
             if (confirmReset) {
@@ -897,94 +941,122 @@
             }
         }
 
-        // পেজ লোড হওয়ার পর ইনিশিয়ালাইজেশন
-        window.onload = init;
-
-        // পিডিএফ ডাউনলোড ফাংশন
-        async function downloadPDF() {
+        function downloadAllResult() {
             const playersToShow = allPlayers;
-            const playersPerPage = 20;
+            const playersPerPage = 25;
             const totalPages = Math.ceil(playersToShow.length / playersPerPage);
-            
-            // প্রিভিউ কন্টেইনার
             const previewContainer = document.getElementById('pdfPreview');
             previewContainer.innerHTML = '';
             previewContainer.style.display = 'block';
             
-            // প্রতি পেজের জন্য HTML তৈরি
             for (let pageNum = 0; pageNum < totalPages; pageNum++) {
                 const startIdx = pageNum * playersPerPage;
                 const endIdx = Math.min(startIdx + playersPerPage, playersToShow.length);
                 const pagePlayers = playersToShow.slice(startIdx, endIdx);
-                
                 const pageDiv = document.createElement('div');
                 pageDiv.className = 'pdf-page';
-                pageDiv.innerHTML = `
-                    <h1>📊 নিলামের রেজাল্ট শীট (পেজ ${pageNum + 1}/${totalPages})</h1>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>নাম</th>
-                                <th>ক্যাটাগরি</th>
-                                <th>ভিত্তি মূল্য</th>
-                                <th>বিক্রিত মূল্য</th>
-                                <th>টিম</th>
-                                <th>স্ট্যাটাস</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${pagePlayers.map(player => {
-                                const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
-                                const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
-                                const teamDisplay = player.team ? player.team : '---';
-                                const statusClass = player.auctionPrice ? 'sold' : 'unsold';
-                                return `
-                                    <tr>
-                                        <td>${player.name}</td>
-                                        <td>${player.category}</td>
-                                        <td>${player.basePrice}</td>
-                                        <td>${priceDisplay}</td>
-                                        <td>${teamDisplay}</td>
-                                        <td class="${statusClass}">${status}</td>
-                                    </tr>
-                                `;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                `;
+                pageDiv.innerHTML = `<h1>📊 নিলামের রেজাল্ট শীট (পৃষ্ঠা ${pageNum + 1}/${totalPages})</h1><table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>টিম</th><th>স্ট্যাটাস</th></tr></thead><tbody>${pagePlayers.map(player => {
+                    const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
+                    const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
+                    const teamDisplay = player.team ? player.team : '---';
+                    const statusClass = player.auctionPrice ? 'sold' : 'unsold';
+                    return `<tr><td>${player.name}</td><td>${player.category}</td><td>${player.basePrice}</td><td>${priceDisplay}</td><td>${teamDisplay}</td><td class="${statusClass}">${status}</td></tr>`;
+                }).join('')}</tbody></table>`;
                 previewContainer.appendChild(pageDiv);
             }
             
-            // অপেক্ষা করা যাতে DOM আপডেট হয়
-            await new Promise(resolve => setTimeout(resolve, 100));
+            setTimeout(function() {
+                processPages(0, previewContainer.querySelectorAll('.pdf-page'));
+            }, 100);
+        }
+        
+        function processPages(index, pages) {
+            if (index >= pages.length) {
+                const previewContainer = document.getElementById('pdfPreview');
+                previewContainer.style.display = 'none';
+                previewContainer.innerHTML = '';
+                alert(`✅ মোট ${pages.length}টি পেজ ইমেজ হিসেবে ডাউনলোড হয়েছে!`);
+                return;
+            }
             
-            // প্রতিটি পেজকে ইমেজে কনভার্ট করে ডাউনলোড
-            const pages = previewContainer.querySelectorAll('.pdf-page');
-            for (let i = 0; i < pages.length; i++) {
-                const canvas = await html2canvas(pages[i], {
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: '#ffffff',
-                    width: 794, // A4 width in pixels at 96 DPI
-                    height: 1123 // A4 height in pixels at 96 DPI
-                });
-                
-                // Canvas থেকে image ডাউনলোড
+            html2canvas(pages[index], {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                width: 794,
+                height: 1123
+            }).then(function(canvas) {
                 const link = document.createElement('a');
-                link.download = `নিলাম-রেজাল্ট-পেজ-${i + 1}.png`;
+                link.download = `সম্পূর্ণ-রেজাল্ট-পৃষ্ঠা-${index + 1}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
                 
-                // একটু দেরি করা যাতে ব্রাউজার সব ডাউনলোড হ্যান্ডল করতে পারে
-                await new Promise(resolve => setTimeout(resolve, 500));
+                setTimeout(function() {
+                    processPages(index + 1, pages);
+                }, 500);
+            });
+        }
+
+        function downloadTeamImage() {
+            const teamPlayers = allPlayers.filter(p => p.team === currentTeam && p.auctionPrice);
+            
+            if (teamPlayers.length === 0) {
+                alert('⚠️ এই টিমে কোনো প্লেয়ার নেই!');
+                return;
             }
             
-            // প্রিভিউ লুকানো
-            previewContainer.style.display = 'none';
+            const previewContainer = document.getElementById('teamImagePreview');
             previewContainer.innerHTML = '';
+            previewContainer.style.display = 'block';
             
-            alert(`✅ মোট ${pages.length}টি পেজ ইমেজ হিসেবে ডাউনলোড হয়েছে!`);
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'pdf-page';
+            pageDiv.style.minHeight = 'auto';
+            
+            let html = `
+                <h1>🏆 ${currentTeam}</h1>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;">
+            `;
+            
+            teamPlayers.forEach(player => {
+                const imageHTML = player.imageURL 
+                    ? `<img src="${player.imageURL}" alt="${player.name}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto; border: 3px solid #9333ea;">`
+                    : `<div style="width: 100px; height: 100px; border-radius: 50%; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; margin: 0 auto; border: 3px solid #9ca3af; font-size: 0.8em; color: #6b7280;">ছবি নেই</div>`;
+                
+                html += `
+                    <div style="text-align: center; padding: 15px; border: 2px solid #9333ea; border-radius: 10px; background: white;">
+                        ${imageHTML}
+                        <div style="font-size: 14px; font-weight: bold; color: #1f2937; margin-top: 10px;">${player.name}</div>
+                        <div style="font-size: 16px; font-weight: bold; color: #059669; margin-top: 5px;">💰 ${player.auctionPrice} টাকা</div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            pageDiv.innerHTML = html;
+            previewContainer.appendChild(pageDiv);
+            
+            setTimeout(function() {
+                html2canvas(pageDiv, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    width: 794,
+                    height: pageDiv.offsetHeight
+                }).then(function(canvas) {
+                    const link = document.createElement('a');
+                    link.download = `${currentTeam}-প্লেয়ার-তালিকা.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    
+                    previewContainer.style.display = 'none';
+                    previewContainer.innerHTML = '';
+                    alert(`✅ ${currentTeam} এর প্লেয়ার তালিকা ডাউনলোড হয়েছে!`);
+                });
+            }, 100);
         }
+
+        window.onload = init;
     </script>
 </body>
 </html>
