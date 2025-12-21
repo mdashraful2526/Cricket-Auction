@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blast Effect</title>
+    <title>Tournament Showcase</title>
     <style>
         * {
             margin: 0;
@@ -16,25 +16,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
         }
         
-        #loading {
-            text-align: center;
-            color: white;
-            font-size: 2rem;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
         #blastEffect {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -42,7 +29,12 @@
             height: 100vh;
             background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,200,0,1) 30%, rgba(255,0,0,0.8) 60%, rgba(0,0,0,0) 100%);
             animation: blast 0.5s ease-out;
-            z-index: 10;
+            z-index: 20;
+            pointer-events: none;
+        }
+        
+        #blastEffect.hidden {
+            display: none;
         }
         
         @keyframes blast {
@@ -56,55 +48,194 @@
             }
         }
         
-        #imageContainer {
+        #mainContainer {
             display: none;
+            width: 100vw;
+            height: 100vh;
             position: relative;
-            max-width: 90%;
-            max-height: 90vh;
-            animation: fadeInZoom 1s ease-out;
+            overflow: hidden;
         }
         
-        @keyframes fadeInZoom {
+        #mainContainer.active {
+            display: block;
+        }
+        
+        /* Civil Logo - Fixed Position */
+        #civilLogo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            height: 280px;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+        }
+        
+        #civilLogo.visible {
+            opacity: 1;
+        }
+        
+        #civilLogo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+        }
+        
+        /* Sliding Images Container */
+        #slidingContainer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slideImage {
+            position: absolute;
+            width: 500px;
+            height: auto;
+            max-height: 80vh;
+            right: -600px;
+            opacity: 0;
+            z-index: 1;
+            border-radius: 15px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+            transition: none;
+        }
+        
+        .slideImage img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            display: block;
+        }
+        
+        .slideImage.sliding {
+            animation: slideAcross 4s linear;
+        }
+        
+        @keyframes slideAcross {
             0% {
+                right: -600px;
                 opacity: 0;
-                transform: scale(0.5);
+            }
+            5% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            95% {
+                opacity: 1;
             }
             100% {
-                opacity: 1;
-                transform: scale(1);
+                right: 100%;
+                left: -600px;
+                opacity: 0;
             }
         }
         
-        #imageContainer img {
-            max-width: 100%;
-            max-height: 90vh;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        /* Decorative Background Elements */
+        .bgDecor {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 20s infinite ease-in-out;
         }
         
-        body.show-image {
-            background: #1a1a1a;
+        .bgDecor:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .bgDecor:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+        
+        .bgDecor:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            bottom: 10%;
+            left: 20%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .slideImage {
+                width: 90vw;
+                max-height: 70vh;
+            }
+            
+            #civilLogo {
+                width: 200px;
+                height: 200px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="loading">লোড হচ্ছে...</div>
+    <!-- First Blast Effect -->
     <div id="blastEffect"></div>
-    <div id="imageContainer">
-        <img src="https://munnacodsit.xyz/Tournament-Lottery/in/Maine.jpeg" alt="Image">
+    
+    <!-- Main Container -->
+    <div id="mainContainer">
+        <div class="bgDecor"></div>
+        <div class="bgDecor"></div>
+        <div class="bgDecor"></div>
+        
+        <!-- Civil Logo Fixed in Center -->
+        <div id="civilLogo">
+            <img src="https://munnacodsit.xyz/Tournament-Lottery/in/civil.jpeg" alt="Civil Logo">
+        </div>
+        
+        <!-- Sliding Images -->
+        <div id="slidingContainer"></div>
     </div>
     
     <script>
-        // 2 সেকেন্ড পর blast effect
-        setTimeout(() => {
-            const loading = document.getElementById('loading');
-            const blastEffect = document.getElementById('blastEffect');
-            const imageContainer = document.getElementById('imageContainer');
-            
-            // Loading text hide করা
-            loading.style.display = 'none';
-            
-            // Blast sound তৈরি করা (Web Audio API দিয়ে)
+        const images = [
+            'https://munnacodsit.xyz/Tournament-Lottery/in/civil1.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriakings.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriastrikers.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriatitans.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriavikings.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriawarriors.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriakings1.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriastrikers1.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriatitans1.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriavikings1.jpeg',
+            'https://munnacodsit.xyz/Tournament-Lottery/in/Dumuriawarriors1.jpeg'
+        ];
+        
+        let currentImageIndex = 0;
+        let isFirstBlastDone = false;
+        let isSecondBlastDone = false;
+        
+        function createBlastSound() {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
@@ -112,7 +243,6 @@
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
             
-            // Blast sound effect
             oscillator.type = 'sawtooth';
             oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
             oscillator.frequency.exponentialRampToValueAtTime(20, audioContext.currentTime + 0.5);
@@ -122,18 +252,82 @@
             
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.5);
-            
-            // Blast effect দেখানো
-            blastEffect.style.display = 'block';
-            
-            // 0.5 সেকেন্ড পর ইমেজ দেখানো
+        }
+        
+        function triggerBlast() {
+            const blastEffect = document.getElementById('blastEffect');
+            blastEffect.classList.remove('hidden');
+            blastEffect.style.animation = 'none';
             setTimeout(() => {
-                blastEffect.style.display = 'none';
-                imageContainer.style.display = 'block';
-                document.body.classList.add('show-image');
-            }, 500);
+                blastEffect.style.animation = 'blast 0.5s ease-out';
+            }, 10);
             
+            createBlastSound();
+            
+            setTimeout(() => {
+                blastEffect.classList.add('hidden');
+            }, 500);
+        }
+        
+        function showNextImage() {
+            const container = document.getElementById('slidingContainer');
+            
+            // Remove old images
+            const oldImages = container.querySelectorAll('.slideImage');
+            oldImages.forEach(img => {
+                if (!img.classList.contains('sliding')) {
+                    img.remove();
+                }
+            });
+            
+            // Create new image
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'slideImage';
+            
+            const img = document.createElement('img');
+            img.src = images[currentImageIndex];
+            img.alt = 'Tournament Image';
+            
+            slideDiv.appendChild(img);
+            container.appendChild(slideDiv);
+            
+            // Start animation
+            setTimeout(() => {
+                slideDiv.classList.add('sliding');
+            }, 50);
+            
+            // Remove after animation
+            setTimeout(() => {
+                slideDiv.remove();
+            }, 4000);
+            
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+        }
+        
+        // First blast after 2 seconds
+        setTimeout(() => {
+            triggerBlast();
+            isFirstBlastDone = true;
         }, 2000);
+        
+        // Second blast after 2.5 seconds (0.5s after first)
+        setTimeout(() => {
+            triggerBlast();
+            isSecondBlastDone = true;
+        }, 2500);
+        
+        // Show main container and civil logo after 7.5 seconds
+        setTimeout(() => {
+            const mainContainer = document.getElementById('mainContainer');
+            const civilLogo = document.getElementById('civilLogo');
+            
+            mainContainer.classList.add('active');
+            civilLogo.classList.add('visible');
+            
+            // Start sliding images
+            showNextImage();
+            setInterval(showNextImage, 2000);
+        }, 7500);
     </script>
 </body>
 </html>
