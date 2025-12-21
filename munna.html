@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blast Effect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        #loading {
+            text-align: center;
+            color: white;
+            font-size: 2rem;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        #blastEffect {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,200,0,1) 30%, rgba(255,0,0,0.8) 60%, rgba(0,0,0,0) 100%);
+            animation: blast 0.5s ease-out;
+            z-index: 10;
+        }
+        
+        @keyframes blast {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+        
+        #imageContainer {
+            display: none;
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            animation: fadeInZoom 1s ease-out;
+        }
+        
+        @keyframes fadeInZoom {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        #imageContainer img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        
+        body.show-image {
+            background: #1a1a1a;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">লোড হচ্ছে...</div>
+    <div id="blastEffect"></div>
+    <div id="imageContainer">
+        <img src="https://munnacodsit.xyz/Tournament-Lottery/in/Maine.jpeg" alt="Image">
+    </div>
+    
+    <script>
+        // 2 সেকেন্ড পর blast effect
+        setTimeout(() => {
+            const loading = document.getElementById('loading');
+            const blastEffect = document.getElementById('blastEffect');
+            const imageContainer = document.getElementById('imageContainer');
+            
+            // Loading text hide করা
+            loading.style.display = 'none';
+            
+            // Blast sound তৈরি করা (Web Audio API দিয়ে)
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Blast sound effect
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(20, audioContext.currentTime + 0.5);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+            
+            // Blast effect দেখানো
+            blastEffect.style.display = 'block';
+            
+            // 0.5 সেকেন্ড পর ইমেজ দেখানো
+            setTimeout(() => {
+                blastEffect.style.display = 'none';
+                imageContainer.style.display = 'block';
+                document.body.classList.add('show-image');
+            }, 500);
+            
+        }, 2000);
+    </script>
+</body>
+</html>
