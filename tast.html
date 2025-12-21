@@ -503,6 +503,15 @@
             font-size: 24px;
         }
 
+        .pdf-page-number {
+            text-align: center;
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #d1d5db;
+        }
+
         .pdf-page table {
             width: 100%;
             border-collapse: collapse;
@@ -591,7 +600,7 @@
 <body>
     <div class="container">
         <div class="bank-panel">
-            <h2>💸 নিলাম ব্যাংক</h2>
+            <h2>💼 Civil Construction & Safety Trade<br>🏗️ Building Construction & Maintenance Trade</h2>
             <div class="bank-input-group">
                 <input type="number" id="auctionPriceInput" placeholder="বিক্রিত মূল্য লিখুন (যেমন: 150000)">
                 <button onclick="setAuctionPrice()">মূল্য সেট করুন</button>
@@ -625,7 +634,7 @@
 
         <div class="result-sheet-overlay" id="resultSheetOverlay" onclick="hideResultSheet(event)">
             <div class="result-sheet-content" onclick="event.stopPropagation()">
-                <h2>📊 নিলামের রেজাল্ট শীট</h2>
+                <h2>💼 Civil Construction & Safety Trade<br>🏗️ Building Construction & Maintenance Trade</h2>
                 
                 <div class="view-tabs">
                     <div class="view-tab active-view" onclick="changeView('all')">
@@ -958,13 +967,13 @@
                 const pagePlayers = playersToShow.slice(startIdx, endIdx);
                 const pageDiv = document.createElement('div');
                 pageDiv.className = 'pdf-page';
-                pageDiv.innerHTML = `<h1>📊 নিলামের রেজাল্ট শীট (পৃষ্ঠা ${pageNum + 1}/${totalPages})</h1><table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>টিম</th><th>স্ট্যাটাস</th></tr></thead><tbody>${pagePlayers.map(player => {
+                pageDiv.innerHTML = `<h1>💼 Civil Construction & Safety Trade<br>🏗️ Building Construction & Maintenance Trade</h1><table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>টিম</th><th>স্ট্যাটাস</th></tr></thead><tbody>${pagePlayers.map(player => {
                     const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
                     const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
                     const teamDisplay = player.team ? player.team : '---';
                     const statusClass = player.auctionPrice ? 'sold' : 'unsold';
                     return `<tr><td>${player.name}</td><td>${player.category}</td><td>${player.basePrice}</td><td>${priceDisplay}</td><td>${teamDisplay}</td><td class="${statusClass}">${status}</td></tr>`;
-                }).join('')}</tbody></table>`;
+                }).join('')}</tbody></table><div class="pdf-page-number">পৃষ্ঠা ${pageNum + 1}/${totalPages}</div>`;
                 previewContainer.appendChild(pageDiv);
             }
             
