@@ -9,6 +9,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            
+            #maineImage {
+                width: 90%;
+            }
         }
         
         body {
@@ -171,21 +175,14 @@
         #slideText {
             position: fixed;
             bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 800px;
+            width: 100%;
             text-align: center;
             z-index: 6;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-        
-        #slideText.visible {
-            opacity: 1;
+            overflow: hidden;
         }
         
         #slideText p {
+            display: inline-block;
             color: #ffffff;
             font-size: 1.5rem;
             font-weight: 600;
@@ -196,6 +193,17 @@
             background: rgba(0, 0, 0, 0.4);
             border-radius: 15px;
             backdrop-filter: blur(10px);
+            white-space: nowrap;
+            animation: scrollText 15s linear infinite;
+        }
+        
+        @keyframes scrollText {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
         
         /* Decorative Background Elements */
@@ -258,10 +266,6 @@
             #slideText p {
                 font-size: 1.1rem;
                 padding: 15px 25px;
-            }
-            
-            #maineImage {
-                width: 90%;
             }
         }
     </style>
@@ -410,7 +414,6 @@
                 maineImage.style.display = 'none';
                 mainContainer.classList.add('active');
                 civilLogo.classList.add('visible');
-                slideText.classList.add('visible');
                 
                 // Start sliding images
                 showNextImage();
