@@ -119,9 +119,9 @@
         #tournamentTitle {
             position: fixed;
             top: 50%;
-            left: 20px;
-            transform: translateY(-230px);
-            z-index: 10;
+            left: 50%;
+            transform: translate(-50%, -380px);
+            z-index: 15;
             opacity: 0;
             transition: opacity 0.5s ease;
         }
@@ -131,18 +131,18 @@
         }
         
         #tournamentTitle h1 {
-            color: #ffffff;
-            font-size: 1.8rem;
+            color: #FFD700;
+            font-size: 2.5rem;
             font-weight: 800;
             text-shadow: 0 5px 20px rgba(0, 0, 0, 0.9);
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #FFD700, #FFA500, #FF6347);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            letter-spacing: 3px;
             text-transform: uppercase;
             margin: 0;
-            padding: 0;
+            padding: 15px 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
         }
         
         /* Sliding Images Container */
@@ -305,12 +305,14 @@
             }
             
             #tournamentTitle h1 {
-                font-size: 1rem;
-                letter-spacing: 0.5px;
+                font-size: 1.5rem;
+                letter-spacing: 2px;
+                padding: 12px 30px;
             }
             
             #tournamentTitle {
-                transform: translateY(-120px);
+                top: 40px;
+                transform: translateX(-50%);
             }
         }
     </style>
