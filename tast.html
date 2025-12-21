@@ -1305,7 +1305,7 @@
             });
         }
 
-        function downloadTeamImage() {
+        async function downloadTeamImage() {
             const teamPlayers = allPlayers.filter(p => p.team === currentTeam && p.auctionPrice);
             
             if (teamPlayers.length === 0) {
@@ -1316,62 +1316,98 @@
             const previewContainer = document.getElementById('teamImagePreview');
             previewContainer.innerHTML = '';
             previewContainer.style.display = 'block';
+            previewContainer.style.position = 'fixed';
+            previewContainer.style.left = '0';
+            previewContainer.style.top = '0';
             
             const pageDiv = document.createElement('div');
-            pageDiv.className = 'pdf-page';
+            pageDiv.style.width = '1000px';
             pageDiv.style.minHeight = 'auto';
-            pageDiv.style.padding = '30px';
+            pageDiv.style.padding = '40px';
+            pageDiv.style.background = 'white';
+            pageDiv.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
             
             let html = `
-                <div style="text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%); border-radius: 15px;">
-                    <h1 style="color: white; font-size: 36px; margin-bottom: 10px;">🏆 ${currentTeam}</h1>
-                    <div style="color: white; font-size: 18px; font-weight: bold;">প্লেয়ার তালিকা - ২০২৫</div>
-                    <div style="color: white; font-size: 16px; margin-top: 5px;">মোট প্লেয়ার: ${teamPlayers.length} জন</div>
+                <div style="text-align: center; margin-bottom: 30px; padding: 25px; background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%); border-radius: 15px; box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);">
+                    <h1 style="color: white; font-size: 42px; margin: 0 0 15px 0; font-weight: bold;">🏆 ${currentTeam}</h1>
+                    <div style="color: white; font-size: 20px; font-weight: bold; margin-bottom: 8px;">প্লেয়ার তালিকা - ২০২৫</div>
+                    <div style="color: white; font-size: 18px; opacity: 0.9;">মোট প্লেয়ার: ${teamPlayers.length} জন</div>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px;">
             `;
             
-            teamPlayers.forEach(player => {
-                const imageHTML = player.imageURL 
-                    ? `<img src="${player.imageURL}" alt="${player.name}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto; border: 3px solid #9333ea;">`
-                    : `<div style="width: 100px; height: 100px; border-radius: 50%; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; margin: 0 auto; border: 3px solid #9ca3af; font-size: 0.8em; color: #6b7280;">ছবি নেই</div>`;
+            // Preload all images
+            const imagePromises = teamPlayers.map(player => {
+                return new Promise((resolve) => {
+                    if (player.imageURL) {
+                        const img = new Image();
+                        img.crossOrigin = 'anonymous';
+                        img.onload = () => resolve({ player, img });
+                        img.onerror = () => resolve({ player, img: null });
+                        img.src = player.imageURL;
+                    } else {
+                        resolve({ player, img: null });
+                    }
+                });
+            });
+            
+            const loadedImages = await Promise.all(imagePromises);
+            
+            loadedImages.forEach(({ player, img }) => {
+                let imageHTML;
+                if (img) {
+                    imageHTML = `<img src="${player.imageURL}" crossorigin="anonymous" alt="${player.name}" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px auto; display: block; border: 4px solid #9333ea; box-shadow: 0 5px 15px rgba(147, 51, 234, 0.3);">`;
+                } else {
+                    imageHTML = `<div style="width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; border: 4px solid #9ca3af; font-size: 16px; color: #6b7280; font-weight: bold;">ছবি নেই</div>`;
+                }
                 
                 html += `
-                    <div style="text-align: center; padding: 15px; border: 2px solid #9333ea; border-radius: 10px; background: white;">
+                    <div style="text-align: center; padding: 20px; border: 3px solid #9333ea; border-radius: 12px; background: white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
                         ${imageHTML}
-                        <div style="font-size: 14px; font-weight: bold; color: #1f2937; margin-top: 10px;">${player.name}</div>
-                        <div style="font-size: 16px; font-weight: bold; color: #059669; margin-top: 5px;">💰 ${player.auctionPrice} টাকা</div>
+                        <div style="font-size: 16px; font-weight: bold; color: #1f2937; margin-bottom: 8px; line-height: 1.4;">${player.name}</div>
+                        <div style="font-size: 18px; font-weight: bold; color: #059669; padding: 8px 12px; background: #d1fae5; border-radius: 8px; display: inline-block;">💰 ${player.auctionPrice} টাকা</div>
                     </div>
                 `;
             });
             
             html += '</div>';
             html += `
-                <div style="text-align: center; margin-top: 30px; padding: 15px; background: #f3f4f6; border-radius: 10px;">
-                    <div style="font-size: 14px; color: #6b7280;">💼 Civil Construction & Safety Trade | 🏗️ Building Construction & Maintenance Trade</div>
+                <div style="text-align: center; margin-top: 35px; padding: 18px; background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); border-radius: 10px; border: 2px solid #d1d5db;">
+                    <div style="font-size: 15px; color: #1f2937; font-weight: 600; line-height: 1.6;">
+                        💼 Civil Construction & Safety Trade<br>
+                        🏗️ Building Construction & Maintenance Trade
+                    </div>
                 </div>
             `;
             pageDiv.innerHTML = html;
             previewContainer.appendChild(pageDiv);
             
+            // Wait for images to render
             setTimeout(function() {
                 html2canvas(pageDiv, {
                     scale: 2,
                     useCORS: true,
+                    allowTaint: true,
                     backgroundColor: '#ffffff',
-                    width: 794,
-                    height: pageDiv.offsetHeight
+                    width: 1000,
+                    logging: false,
+                    imageTimeout: 0
                 }).then(function(canvas) {
                     const link = document.createElement('a');
-                    link.download = `${currentTeam}-প্লেয়ার-তালিকা.png`;
-                    link.href = canvas.toDataURL('image/png');
+                    link.download = `${currentTeam}-প্লেয়ার-তালিকা-${Date.now()}.png`;
+                    link.href = canvas.toDataURL('image/png', 1.0);
                     link.click();
                     
                     previewContainer.style.display = 'none';
                     previewContainer.innerHTML = '';
-                    alert(`✅ ${currentTeam} এর প্লেয়ার তালিকা ডাউনলোড হয়েছে!`);
+                    alert(`✅ ${currentTeam} এর প্লেয়ার তালিকা সফলভাবে ডাউনলোড হয়েছে!`);
+                }).catch(function(error) {
+                    console.error('Error generating image:', error);
+                    previewContainer.style.display = 'none';
+                    previewContainer.innerHTML = '';
+                    alert('⚠️ ইমেজ তৈরিতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
                 });
-            }, 100);
+            }, 500);
         }
 
         window.onload = init;
