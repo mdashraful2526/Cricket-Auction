@@ -1320,9 +1320,14 @@
             const pageDiv = document.createElement('div');
             pageDiv.className = 'pdf-page';
             pageDiv.style.minHeight = 'auto';
+            pageDiv.style.padding = '30px';
             
             let html = `
-                <h1>🏆 ${currentTeam}</h1>
+                <div style="text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%); border-radius: 15px;">
+                    <h1 style="color: white; font-size: 36px; margin-bottom: 10px;">🏆 ${currentTeam}</h1>
+                    <div style="color: white; font-size: 18px; font-weight: bold;">প্লেয়ার তালিকা - ২০২৫</div>
+                    <div style="color: white; font-size: 16px; margin-top: 5px;">মোট প্লেয়ার: ${teamPlayers.length} জন</div>
+                </div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;">
             `;
             
@@ -1341,6 +1346,11 @@
             });
             
             html += '</div>';
+            html += `
+                <div style="text-align: center; margin-top: 30px; padding: 15px; background: #f3f4f6; border-radius: 10px;">
+                    <div style="font-size: 14px; color: #6b7280;">💼 Civil Construction & Safety Trade | 🏗️ Building Construction & Maintenance Trade</div>
+                </div>
+            `;
             pageDiv.innerHTML = html;
             previewContainer.appendChild(pageDiv);
             
