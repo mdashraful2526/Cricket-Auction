@@ -140,15 +140,6 @@
             background: #991b1b;
         }
 
-        .btn-team-logos {
-            background: #9333ea;
-            color: white;
-        }
-
-        .btn-team-logos:hover {
-            background: #7e22ce;
-        }
-
         .player-screen {
             background: white;
             border-radius: 15px;
@@ -349,84 +340,30 @@
             }
         }
 
-        .corner-logos {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .corner-logo {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            opacity: 0;
-            animation: fadeInLogo 1s ease-out forwards;
-        }
-
-        .corner-logo.top-left {
-            top: 20px;
-            left: 20px;
-            animation-delay: 0.5s;
-        }
-
-        .corner-logo.top-right {
-            top: 20px;
-            right: 20px;
-            animation-delay: 0.7s;
-        }
-
-        .corner-logo.bottom-left {
-            bottom: 20px;
-            left: 20px;
-            animation-delay: 0.9s;
-        }
-
-        .corner-logo.bottom-right {
-            bottom: 20px;
-            right: 20px;
-            animation-delay: 1.1s;
-        }
-
-        @keyframes fadeInLogo {
-            from {
-                opacity: 0;
-                transform: scale(0.5) rotate(-180deg);
-            }
-            to {
-                opacity: 0.8;
-                transform: scale(1) rotate(0deg);
-            }
-        }
-
-        .welcome-player-images {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+        .welcome-player-image-container {
             margin-bottom: 30px;
             opacity: 0;
-            animation: fadeInImages 1s ease-out forwards;
-            animation-delay: 1.5s;
+            animation: fadeInImage 1s ease-out forwards;
+            animation-delay: 1s;
         }
 
         .welcome-player-img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
+            width: 350px;
+            height: 350px;
             object-fit: cover;
-            border: 6px solid #9333ea;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 8px solid #9333ea;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
         }
 
-        @keyframes fadeInImages {
+        @keyframes fadeInImage {
             from {
                 opacity: 0;
-                transform: scale(0.8);
+                transform: scale(0.8) rotate(-5deg);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1) rotate(0deg);
             }
         }
 
@@ -435,7 +372,7 @@
             max-width: 800px;
             opacity: 0;
             animation: fadeInText 1s ease-out forwards;
-            animation-delay: 2s;
+            animation-delay: 1.5s;
         }
 
         .welcome-team-name {
@@ -446,7 +383,7 @@
         }
 
         .welcome-player-name {
-            font-size: 2em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #dc2626;
             margin-bottom: 20px;
@@ -494,98 +431,6 @@
 
         .close-welcome-btn:hover {
             background: #991b1b;
-        }
-
-        /* Team Logo Settings Modal */
-        .logo-settings-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1500;
-        }
-
-        .logo-settings-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .logo-settings-content h2 {
-            color: #1e5128;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .logo-input-group {
-            margin-bottom: 20px;
-        }
-
-        .logo-input-group label {
-            display: block;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-
-        .logo-input-group input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #d1d5db;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        .logo-preview {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin-top: 10px;
-            border: 2px solid #d1d5db;
-            border-radius: 8px;
-        }
-
-        .logo-settings-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .logo-settings-actions button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-        }
-
-        .btn-save-logos {
-            background: #059669;
-            color: white;
-        }
-
-        .btn-save-logos:hover {
-            background: #047857;
-        }
-
-        .btn-cancel-logos {
-            background: #6b7280;
-            color: white;
-        }
-
-        .btn-cancel-logos:hover {
-            background: #4b5563;
         }
 
         .result-sheet-overlay {
@@ -892,18 +737,21 @@
                 font-size: 1.2em;
             }
 
-            .welcome-player-images {
-                grid-template-columns: 1fr;
-            }
-
             .welcome-player-img {
-                width: 150px;
-                height: 150px;
+                width: 250px;
+                height: 250px;
             }
 
-            .corner-logo {
-                width: 80px;
-                height: 80px;
+            .welcome-team-name {
+                font-size: 1.8em;
+            }
+
+            .welcome-player-name {
+                font-size: 1.8em;
+            }
+
+            .welcome-text {
+                font-size: 1.1em;
             }
         }
     </style>
@@ -917,9 +765,6 @@
                 <button onclick="setAuctionPrice()">মূল্য সেট করুন</button>
             </div>
             <div class="bank-actions">
-                <button class="btn-team-logos" onclick="showLogoSettings()">
-                    🎨 টিম লোগো সেট করুন
-                </button>
                 <button class="btn-result-sheet" onclick="showResultSheet()">
                     রেজাল্ট শীট দেখুন
                 </button>
@@ -951,53 +796,9 @@
             <div class="welcome-content">
                 <button class="close-welcome-btn" onclick="closeWelcomePage()">✖ বন্ধ করুন</button>
                 
-                <div class="corner-logos" id="cornerLogos"></div>
-                
-                <div class="welcome-player-images" id="welcomePlayerImages"></div>
+                <div class="welcome-player-image-container" id="welcomePlayerImageContainer"></div>
                 
                 <div class="welcome-message" id="welcomeMessage"></div>
-            </div>
-        </div>
-
-        <!-- Logo Settings Modal -->
-        <div class="logo-settings-overlay" id="logoSettingsOverlay" onclick="hideLogoSettings(event)">
-            <div class="logo-settings-content" onclick="event.stopPropagation()">
-                <h2>🎨 টিম লোগো সেট করুন</h2>
-                
-                <div class="logo-input-group">
-                    <label>Dumuria Kings লোগো লিংক:</label>
-                    <input type="text" id="logoKings" placeholder="https://example.com/logo.png">
-                    <img id="previewKings" class="logo-preview" style="display:none;">
-                </div>
-                
-                <div class="logo-input-group">
-                    <label>Dumuria Strikers লোগো লিংক:</label>
-                    <input type="text" id="logoStrikers" placeholder="https://example.com/logo.png">
-                    <img id="previewStrikers" class="logo-preview" style="display:none;">
-                </div>
-                
-                <div class="logo-input-group">
-                    <label>Dumuria Warriors লোগো লিংক:</label>
-                    <input type="text" id="logoWarriors" placeholder="https://example.com/logo.png">
-                    <img id="previewWarriors" class="logo-preview" style="display:none;">
-                </div>
-                
-                <div class="logo-input-group">
-                    <label>Dumuria Titans লোগো লিংক:</label>
-                    <input type="text" id="logoTitans" placeholder="https://example.com/logo.png">
-                    <img id="previewTitans" class="logo-preview" style="display:none;">
-                </div>
-                
-                <div class="logo-input-group">
-                    <label>Dumuria Vikings লোগো লিংক:</label>
-                    <input type="text" id="logoVikings" placeholder="https://example.com/logo.png">
-                    <img id="previewVikings" class="logo-preview" style="display:none;">
-                </div>
-                
-                <div class="logo-settings-actions">
-                    <button class="btn-save-logos" onclick="saveTeamLogos()">✅ সংরক্ষণ করুন</button>
-                    <button class="btn-cancel-logos" onclick="hideLogoSettings()">✖ বাতিল করুন</button>
-                </div>
             </div>
         </div>
 
@@ -1057,7 +858,6 @@
         let currentPlayerIndex = 0;
         let currentTeam = 'Dumuria Kings';
         let currentView = 'all';
-        let teamLogos = {};
         const teams = ["Dumuria Kings", "Dumuria Strikers", "Dumuria Warriors", "Dumuria Titans", "Dumuria Vikings"];
 
         const teamWelcomeMessages = {
@@ -1105,8 +905,6 @@
         
         function init() {
             loadFromStorage();
-            loadTeamLogos();
-            setupLogoPreview();
             displayCurrentPlayer();
         }
 
@@ -1129,77 +927,6 @@
 
         function saveToStorage() {
             localStorage.setItem('cricketPlayers', JSON.stringify(allPlayers));
-        }
-
-        function loadTeamLogos() {
-            const storedLogos = localStorage.getItem('teamLogos');
-            if (storedLogos) {
-                teamLogos = JSON.parse(storedLogos);
-            }
-        }
-
-        function saveTeamLogosToStorage() {
-            localStorage.setItem('teamLogos', JSON.stringify(teamLogos));
-        }
-
-        function setupLogoPreview() {
-            const logoIds = ['logoKings', 'logoStrikers', 'logoWarriors', 'logoTitans', 'logoVikings'];
-            logoIds.forEach(id => {
-                const input = document.getElementById(id);
-                const preview = document.getElementById('preview' + id.replace('logo', ''));
-                
-                input.addEventListener('input', function() {
-                    if (this.value.trim()) {
-                        preview.src = this.value.trim();
-                        preview.style.display = 'block';
-                        preview.onerror = function() {
-                            this.style.display = 'none';
-                        };
-                    } else {
-                        preview.style.display = 'none';
-                    }
-                });
-            });
-        }
-
-        function showLogoSettings() {
-            // Load existing logos
-            document.getElementById('logoKings').value = teamLogos['Dumuria Kings'] || '';
-            document.getElementById('logoStrikers').value = teamLogos['Dumuria Strikers'] || '';
-            document.getElementById('logoWarriors').value = teamLogos['Dumuria Warriors'] || '';
-            document.getElementById('logoTitans').value = teamLogos['Dumuria Titans'] || '';
-            document.getElementById('logoVikings').value = teamLogos['Dumuria Vikings'] || '';
-            
-            // Trigger preview
-            ['logoKings', 'logoStrikers', 'logoWarriors', 'logoTitans', 'logoVikings'].forEach(id => {
-                const input = document.getElementById(id);
-                if (input.value.trim()) {
-                    const preview = document.getElementById('preview' + id.replace('logo', ''));
-                    preview.src = input.value.trim();
-                    preview.style.display = 'block';
-                }
-            });
-            
-            document.getElementById('logoSettingsOverlay').style.display = 'flex';
-        }
-
-        function hideLogoSettings(event) {
-            if (event && event.target.id !== 'logoSettingsOverlay') {
-                return;
-            }
-            document.getElementById('logoSettingsOverlay').style.display = 'none';
-        }
-
-        function saveTeamLogos() {
-            teamLogos['Dumuria Kings'] = document.getElementById('logoKings').value.trim();
-            teamLogos['Dumuria Strikers'] = document.getElementById('logoStrikers').value.trim();
-            teamLogos['Dumuria Warriors'] = document.getElementById('logoWarriors').value.trim();
-            teamLogos['Dumuria Titans'] = document.getElementById('logoTitans').value.trim();
-            teamLogos['Dumuria Vikings'] = document.getElementById('logoVikings').value.trim();
-            
-            saveTeamLogosToStorage();
-            hideLogoSettings();
-            alert('✅ টিম লোগো সফলভাবে সংরক্ষণ করা হয়েছে!');
         }
 
         function getCurrentCategoryPlayers() {
@@ -1278,7 +1005,7 @@
             const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ff8800', '#ff0088'];
             const welcomeContent = document.querySelector('.welcome-content');
             
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const firework = document.createElement('div');
                     firework.className = 'firework';
@@ -1286,50 +1013,44 @@
                     firework.style.top = Math.random() * 100 + '%';
                     firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                     
-                    const tx = (Math.random() - 0.5) * 300;
-                    const ty = (Math.random() - 0.5) * 300;
+                    const tx = (Math.random() - 0.5) * 400;
+                    const ty = (Math.random() - 0.5) * 400;
                     firework.style.setProperty('--tx', tx + 'px');
                     firework.style.setProperty('--ty', ty + 'px');
                     
                     welcomeContent.appendChild(firework);
                     
                     setTimeout(() => firework.remove(), 1000);
-                }, i * 50);
+                }, i * 40);
             }
         }
 
         function showWelcomePage(player) {
             const overlay = document.getElementById('welcomePageOverlay');
-            const cornerLogos = document.getElementById('cornerLogos');
-            const playerImages = document.getElementById('welcomePlayerImages');
+            const playerImageContainer = document.getElementById('welcomePlayerImageContainer');
             const messageDiv = document.getElementById('welcomeMessage');
             
             // Clear previous content
-            cornerLogos.innerHTML = '';
-            playerImages.innerHTML = '';
+            playerImageContainer.innerHTML = '';
             
-            // Add corner logos
-            const teamLogo = teamLogos[player.team];
-            if (teamLogo) {
-                const positions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
-                positions.forEach(pos => {
-                    const logo = document.createElement('img');
-                    logo.src = teamLogo;
-                    logo.className = `corner-logo ${pos}`;
-                    logo.alt = player.team;
-                    cornerLogos.appendChild(logo);
-                });
-            }
-            
-            // Add player images (4 copies in corners)
+            // Add single player image (rectangular/square)
             if (player.imageURL) {
-                for (let i = 0; i < 4; i++) {
-                    const img = document.createElement('img');
-                    img.src = player.imageURL;
-                    img.className = 'welcome-player-img';
-                    img.alt = player.name;
-                    playerImages.appendChild(img);
-                }
+                const img = document.createElement('img');
+                img.src = player.imageURL;
+                img.className = 'welcome-player-img';
+                img.alt = player.name;
+                playerImageContainer.appendChild(img);
+            } else {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'welcome-player-img';
+                placeholder.style.backgroundColor = '#f3f4f6';
+                placeholder.style.display = 'flex';
+                placeholder.style.alignItems = 'center';
+                placeholder.style.justifyContent = 'center';
+                placeholder.style.fontSize = '2em';
+                placeholder.style.color = '#6b7280';
+                placeholder.textContent = 'ছবি নেই';
+                playerImageContainer.appendChild(placeholder);
             }
             
             // Add welcome message
