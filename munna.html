@@ -96,8 +96,8 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            width: 120px;
-            height: 120px;
+            width: 180px;
+            height: 180px;
             z-index: 10;
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -113,6 +113,34 @@
             height: 100%;
             object-fit: contain;
             border-radius: 15px;
+        }
+        
+        /* Tournament Title */
+        #tournamentTitle {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        #tournamentTitle.visible {
+            opacity: 1;
+        }
+        
+        #tournamentTitle h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.9);
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #FFD700, #FFA500, #FF6347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
         }
         
         /* Sliding Images Container */
@@ -258,10 +286,15 @@
             }
             
             #civilLogo {
-                width: 80px;
-                height: 80px;
+                width: 100px;
+                height: 100px;
                 top: 10px;
                 left: 10px;
+            }
+            
+            #tournamentTitle h1 {
+                font-size: 1.3rem;
+                letter-spacing: 1px;
             }
             
             #slideText p {
@@ -289,6 +322,11 @@
         <!-- Civil Logo Fixed in Corner -->
         <div id="civilLogo">
             <img src="https://munnacodsit.xyz/Tournament-Lottery/in/civil.jpeg" alt="Civil Logo">
+        </div>
+        
+        <!-- Tournament Title -->
+        <div id="tournamentTitle">
+            <h1>PL Civil Premier League</h1>
         </div>
         
         <!-- Sliding Images -->
