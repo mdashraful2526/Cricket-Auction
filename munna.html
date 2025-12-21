@@ -48,6 +48,32 @@
             }
         }
         
+        /* Maine Image - Shows after blasts */
+        #maineImage {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            z-index: 15;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        #maineImage.visible {
+            display: block;
+            opacity: 1;
+        }
+        
+        #maineImage img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+        }
+        
         #mainContainer {
             display: none;
             width: 100vw;
@@ -60,18 +86,17 @@
             display: block;
         }
         
-        /* Civil Logo - Fixed Position */
+        /* Civil Logo - Fixed in Corner */
         #civilLogo {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 280px;
-            height: 280px;
-            z-index: 5;
+            top: 20px;
+            left: 20px;
+            width: 120px;
+            height: 120px;
+            z-index: 10;
             opacity: 0;
             transition: opacity 0.5s ease;
-            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
         }
         
         #civilLogo.visible {
@@ -82,7 +107,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 20px;
+            border-radius: 15px;
         }
         
         /* Sliding Images Container */
@@ -97,47 +122,80 @@
         
         .slideImage {
             position: absolute;
-            width: 500px;
+            width: 600px;
             height: auto;
-            max-height: 80vh;
-            right: -600px;
+            max-height: 85vh;
+            right: -700px;
             opacity: 0;
-            z-index: 1;
-            border-radius: 15px;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+            z-index: 5;
+            border-radius: 20px;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.7);
             transition: none;
         }
         
         .slideImage img {
             width: 100%;
             height: auto;
-            border-radius: 15px;
+            border-radius: 20px;
             display: block;
         }
         
         .slideImage.sliding {
-            animation: slideAcross 4s linear;
+            animation: slideAcross 8s ease-in-out;
         }
         
         @keyframes slideAcross {
             0% {
-                right: -600px;
+                right: -700px;
                 opacity: 0;
             }
-            5% {
+            10% {
                 opacity: 1;
             }
             50% {
+                right: 50%;
+                transform: translateX(50%);
                 opacity: 1;
             }
-            95% {
+            90% {
                 opacity: 1;
             }
             100% {
                 right: 100%;
-                left: -600px;
+                left: -700px;
                 opacity: 0;
             }
+        }
+        
+        /* Text Below Images */
+        #slideText {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            z-index: 6;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        #slideText.visible {
+            opacity: 1;
+        }
+        
+        #slideText p {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
+            line-height: 1.6;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
         }
         
         /* Decorative Background Elements */
@@ -186,13 +244,24 @@
         
         @media (max-width: 768px) {
             .slideImage {
-                width: 90vw;
+                width: 85vw;
                 max-height: 70vh;
             }
             
             #civilLogo {
-                width: 200px;
-                height: 200px;
+                width: 80px;
+                height: 80px;
+                top: 10px;
+                left: 10px;
+            }
+            
+            #slideText p {
+                font-size: 1.1rem;
+                padding: 15px 25px;
+            }
+            
+            #maineImage {
+                width: 90%;
             }
         }
     </style>
@@ -201,19 +270,29 @@
     <!-- First Blast Effect -->
     <div id="blastEffect"></div>
     
+    <!-- Maine Image (Shows after blasts) -->
+    <div id="maineImage">
+        <img src="https://munnacodsit.xyz/Tournament-Lottery/in/Maine.jpeg" alt="Maine">
+    </div>
+    
     <!-- Main Container -->
     <div id="mainContainer">
         <div class="bgDecor"></div>
         <div class="bgDecor"></div>
         <div class="bgDecor"></div>
         
-        <!-- Civil Logo Fixed in Center -->
+        <!-- Civil Logo Fixed in Corner -->
         <div id="civilLogo">
             <img src="https://munnacodsit.xyz/Tournament-Lottery/in/civil.jpeg" alt="Civil Logo">
         </div>
         
         <!-- Sliding Images -->
         <div id="slidingContainer"></div>
+        
+        <!-- Text Below Images -->
+        <div id="slideText">
+            <p>ডুমুরিয়া টুর্নামেন্ট ২০২৫ - শক্তিশালী দলগুলোর মধ্যে রোমাঞ্চকর প্রতিযোগিতা শুরু হতে চলেছে!</p>
+        </div>
     </div>
     
     <script>
@@ -232,8 +311,6 @@
         ];
         
         let currentImageIndex = 0;
-        let isFirstBlastDone = false;
-        let isSecondBlastDone = false;
         
         function createBlastSound() {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -299,7 +376,7 @@
             // Remove after animation
             setTimeout(() => {
                 slideDiv.remove();
-            }, 4000);
+            }, 8000);
             
             currentImageIndex = (currentImageIndex + 1) % images.length;
         }
@@ -307,27 +384,39 @@
         // First blast after 2 seconds
         setTimeout(() => {
             triggerBlast();
-            isFirstBlastDone = true;
         }, 2000);
         
-        // Second blast after 2.5 seconds (0.5s after first)
+        // Second blast after 2.5 seconds
         setTimeout(() => {
             triggerBlast();
-            isSecondBlastDone = true;
         }, 2500);
         
-        // Show main container and civil logo after 7.5 seconds
+        // Show Maine image after blasts
         setTimeout(() => {
+            const maineImage = document.getElementById('maineImage');
+            maineImage.classList.add('visible');
+        }, 3000);
+        
+        // Hide Maine image and show main container after 7 seconds
+        setTimeout(() => {
+            const maineImage = document.getElementById('maineImage');
             const mainContainer = document.getElementById('mainContainer');
             const civilLogo = document.getElementById('civilLogo');
+            const slideText = document.getElementById('slideText');
             
-            mainContainer.classList.add('active');
-            civilLogo.classList.add('visible');
+            maineImage.classList.remove('visible');
             
-            // Start sliding images
-            showNextImage();
-            setInterval(showNextImage, 2000);
-        }, 7500);
+            setTimeout(() => {
+                maineImage.style.display = 'none';
+                mainContainer.classList.add('active');
+                civilLogo.classList.add('visible');
+                slideText.classList.add('visible');
+                
+                // Start sliding images
+                showNextImage();
+                setInterval(showNextImage, 4000); // 4 seconds interval
+            }, 1000);
+        }, 10000); // Total 10 seconds (3s show + 7s display)
     </script>
 </body>
 </html>
