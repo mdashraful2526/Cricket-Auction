@@ -790,11 +790,11 @@
                 <button class="btn-result-sheet" onclick="showResultSheet()">
                     রেজাল্ট শীট দেখুন
                 </button>
-                <button class="btn-reset-data" onclick="resetUnsoldPlayers()" style="background: #f59e0b;">
-                    UNSOLD → ২০ টাকা
+                <button class="btn-reset-data" onclick="startSecondRound()" style="background: #f59e0b;">
+                    ২য় রাউন্ড শুরু (UNSOLD → ২০ টাকা)
                 </button>
                 <button class="btn-reset-data" onclick="resetData()">
-                    মুছে ফেলুন (সকল ডেটা)
+                    সম্পূর্ণ রিসেট (সব ডেটা মুছুন)
                 </button>
             </div>
         </div>
@@ -1294,23 +1294,34 @@
                 localStorage.removeItem('cricketPlayers');
                 allPlayers = JSON.parse(JSON.stringify(defaultPlayers));
                 saveToStorage();
+                currentPlayerIndex = 0;
                 displayCurrentPlayer();
                 alert("✅ সকল ডেটা সফলভাবে মুছে ফেলা হয়েছে এবং ডিফল্ট ডেটা লোড করা হয়েছে।");
             }
         }
 
-        function resetUnsoldPlayers() {
-            const confirmReset = confirm("UNSOLD প্লেয়ারদের ভিত্তি মূল্য ২০ টাকা করতে চান?");
+        function startSecondRound() {
+            // Count unsold players
+            const unsoldCount = allPlayers.filter(p => !p.auctionPrice).length;
+            
+            if (unsoldCount === 0) {
+                alert("⚠️ কোনো UNSOLD প্লেয়ার নেই! সবাই বিক্রি হয়ে গেছে।");
+                return;
+            }
+            
+            const confirmReset = confirm(`২য় রাউন্ড শুরু করতে চান?\n\n${unsoldCount} জন UNSOLD প্লেয়ারের BASE PRICE ২০ টাকা হবে এবং তাদের টিম সিলেকশন রিসেট হবে।`);
+            
             if (confirmReset) {
                 allPlayers.forEach(player => {
                     if (!player.auctionPrice) {
                         player.basePrice = "20";
-                        player.team = null; // Reset team selection
+                        player.team = null; // Reset team selection for unsold players
                     }
                 });
                 saveToStorage();
+                currentPlayerIndex = 0;
                 displayCurrentPlayer();
-                alert("✅ UNSOLD প্লেয়ারদের ভিত্তি মূল্য ২০ টাকা করা হয়েছে।");
+                alert(`✅ ২য় রাউন্ড শুরু হয়েছে!\n\n${unsoldCount} জন UNSOLD প্লেয়ারের BASE PRICE এখন ২০ টাকা।`);
             }
         }
 
