@@ -858,6 +858,9 @@
                     <button class="btn-download-pdf" id="downloadBtn" onclick="downloadAllResult()">
                         📥 সম্পূর্ণ রেজাল্ট ডাউনলোড করুন
                     </button>
+                    <button class="btn-download-pdf" onclick="showAllCongratulations()" style="background: #9333ea;">
+                        🎉 সবাইকে কংগ্রাচুলেশন দেখান
+                    </button>
                 </div>
 
                 <div id="resultContainer"></div>
@@ -1176,8 +1179,16 @@
                 return;
             }
             const player = currentPlayers[currentPlayerIndex];
+            
+            // Check if player already sold
+            if (player.auctionPrice) {
+                alert('⚠️ এই প্লেয়ার ইতিমধ্যে বিক্রি হয়ে গেছে!');
+                return;
+            }
+            
             if (!player.team) {
                 alert('⚠️ প্রথমে একটি টিম সিলেক্ট করুন!');
+                // Keep the current price in input - don't clear it
                 return;
             }
             const playerIndexInAll = allPlayers.findIndex(p => p.name === player.name && p.category === player.category);
@@ -1190,6 +1201,42 @@
                 displayCurrentPlayer();
                 priceInput.value = '';
             }
+        }
+
+        function showAllCongratulations() {
+            const soldPlayers = allPlayers.filter(p => p.auctionPrice && p.team);
+            
+            if (soldPlayers.length === 0) {
+                alert('⚠️ এখনো কোনো প্লেয়ার বিক্রি হয়নি!');
+                return;
+            }
+            
+            let currentIndex = 0;
+            
+            function showNextCongratulation() {
+                if (currentIndex >= soldPlayers.length) {
+                    alert('✅ সবাইকে কংগ্রাচুলেশন দেখানো শেষ!');
+                    return;
+                }
+                
+                const player = soldPlayers[currentIndex];
+                showWelcomePage(player);
+                
+                // Override close button to show next player
+                const closeBtn = document.querySelector('.close-welcome-btn');
+                if (closeBtn) {
+                    closeBtn.onclick = function() {
+                        closeWelcomePage();
+                        currentIndex++;
+                        if (currentIndex < soldPlayers.length) {
+                            setTimeout(() => showNextCongratulation(), 300);
+                        }
+                    };
+                    closeBtn.textContent = currentIndex < soldPlayers.length - 1 ? `➡️ পরের (${currentIndex + 1}/${soldPlayers.length})` : `✖ শেষ (${soldPlayers.length}/${soldPlayers.length})`;
+                }
+            }
+            
+            showNextCongratulation();
         }
 
         function showResultSheet() {
