@@ -964,8 +964,15 @@
         }
 
         function getCurrentCategoryPlayers() {
-            // Filter out sold players - only show UNSOLD players
-            return allPlayers.filter(player => player.category === currentCategory && !player.auctionPrice);
+            // Get all players of current category
+            const categoryPlayers = allPlayers.filter(player => player.category === currentCategory);
+            
+            // Sort: SOLD players first, then UNSOLD players
+            return categoryPlayers.sort((a, b) => {
+                if (a.auctionPrice && !b.auctionPrice) return -1; // a is sold, b is unsold - a comes first
+                if (!a.auctionPrice && b.auctionPrice) return 1;  // a is unsold, b is sold - b comes first
+                return 0; // both same status, keep original order
+            });
         }
 
         function changeCategory(newCategory) {
@@ -999,7 +1006,13 @@
             }
             
             let teamSelector = '';
-            if (!player.auctionPrice) {
+            let soldLabel = '';
+            
+            if (player.auctionPrice) {
+                // Player is SOLD - show SOLD label
+                soldLabel = `<div style="font-size: 2.5em; font-weight: bold; color: #059669; margin: 20px 0; padding: 15px; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 15px; box-shadow: 0 5px 15px rgba(5, 150, 105, 0.3);">✅ SOLD</div>`;
+            } else {
+                // Player is UNSOLD - show team selector
                 teamSelector = `<div class="team-selector">${teams.map(team => `<button class="team-btn ${player.team === team ? 'selected' : ''}" onclick="selectTeam('${team}')">${team}</button>`).join('')}</div>`;
             }
             
@@ -1013,7 +1026,7 @@
                 ? `<img src="${player.imageURL}" alt="${player.name}" class="player-image-large">`
                 : `<div class="player-image-large" style="background-color: #f3f4f6; border: 8px solid #9ca3af; display: flex; align-items: center; justify-content: center; font-size: 1.5em; color: #6b7280;">ছবি নেই</div>`;
             
-            screen.innerHTML = `${imageHTML}<div class="player-name-large">${player.name}</div><div class="player-category-badge ${badgeClass}">${categoryText}</div>${priceDisplay}${teamSelector}<div class="navigation-buttons"><button class="nav-btn" onclick="previousPlayer()" ${currentPlayerIndex === 0 ? 'disabled' : ''}>⬅️ আগের</button><button class="nav-btn" onclick="nextPlayer()" ${currentPlayerIndex === currentPlayers.length - 1 ? 'disabled' : ''}>পরের ➡️</button></div><div class="player-counter">${currentPlayerIndex + 1} / ${currentPlayers.length}</div>`;
+            screen.innerHTML = `${imageHTML}<div class="player-name-large">${player.name}</div>${soldLabel}<div class="player-category-badge ${badgeClass}">${categoryText}</div>${priceDisplay}${teamSelector}<div class="navigation-buttons"><button class="nav-btn" onclick="previousPlayer()" ${currentPlayerIndex === 0 ? 'disabled' : ''}>⬅️ আগের</button><button class="nav-btn" onclick="nextPlayer()" ${currentPlayerIndex === currentPlayers.length - 1 ? 'disabled' : ''}>পরের ➡️</button></div><div class="player-counter">${currentPlayerIndex + 1} / ${currentPlayers.length}</div>`;
         }
 
         function nextPlayer() {
