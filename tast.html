@@ -1000,13 +1000,9 @@
             const player = currentPlayers[currentPlayerIndex];
             const badgeClass = `badge-${player.category.toLowerCase()}`;
             
-            // Initialize price input with base price
+            // Store current price before updating display
             const priceInput = document.getElementById('auctionPriceInput');
-            if (priceInput && !player.auctionPrice) {
-                priceInput.value = player.basePrice;
-            } else if (priceInput && player.auctionPrice) {
-                priceInput.value = '';
-            }
+            const existingPrice = priceInput ? priceInput.value : null;
             
             let teamSelector = '';
             let soldLabel = '';
@@ -1030,6 +1026,21 @@
                 : `<div class="player-image-large" style="background-color: #f3f4f6; border: 8px solid #9ca3af; display: flex; align-items: center; justify-content: center; font-size: 1.5em; color: #6b7280;">ছবি নেই</div>`;
             
             screen.innerHTML = `${imageHTML}<div class="player-name-large">${player.name}</div>${soldLabel}<div class="player-category-badge ${badgeClass}">${categoryText}</div>${priceDisplay}${teamSelector}<div class="navigation-buttons"><button class="nav-btn" onclick="previousPlayer()" ${currentPlayerIndex === 0 ? 'disabled' : ''}>⬅️ আগের</button><button class="nav-btn" onclick="nextPlayer()" ${currentPlayerIndex === currentPlayers.length - 1 ? 'disabled' : ''}>পরের ➡️</button></div><div class="player-counter">${currentPlayerIndex + 1} / ${currentPlayers.length}</div>`;
+            
+            // Restore price input after rendering
+            setTimeout(() => {
+                const newPriceInput = document.getElementById('auctionPriceInput');
+                if (newPriceInput && !player.auctionPrice) {
+                    // If there was an existing price, keep it; otherwise use base price
+                    if (existingPrice && existingPrice.trim() !== '') {
+                        newPriceInput.value = existingPrice;
+                    } else {
+                        newPriceInput.value = player.basePrice;
+                    }
+                } else if (newPriceInput && player.auctionPrice) {
+                    newPriceInput.value = '';
+                }
+            }, 0);
         }
 
         function nextPlayer() {
@@ -1051,6 +1062,11 @@
             const currentPlayers = getCurrentCategoryPlayers();
             const player = currentPlayers[currentPlayerIndex];
             const playerIndexInAll = allPlayers.findIndex(p => p.name === player.name && p.category === player.category);
+            
+            // Store current price in input before making changes
+            const priceInput = document.getElementById('auctionPriceInput');
+            const currentPrice = priceInput.value;
+            
             if (playerIndexInAll !== -1) {
                 if (allPlayers[playerIndexInAll].team === teamName) {
                     allPlayers[playerIndexInAll].team = null;
@@ -1059,6 +1075,11 @@
                 }
                 saveToStorage();
                 displayCurrentPlayer();
+                
+                // Restore the price after display update
+                if (priceInput && currentPrice) {
+                    priceInput.value = currentPrice;
+                }
             }
         }
 
