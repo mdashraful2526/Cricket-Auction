@@ -13,14 +13,32 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e5128 0%, #2d6a4f 50%, #40916c 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 150px;
+            height: 150px;
+            background-image: url('https://munnacodsit.xyz/Tournament-Lottery/in/aa.jpeg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            z-index: 1;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 10;
         }
 
         .category-tabs {
@@ -683,6 +701,13 @@
         }
 
         @media (max-width: 600px) {
+            body::before {
+                width: 80px;
+                height: 80px;
+                top: 10px;
+                right: 10px;
+            }
+
             body {
                 padding: 10px;
             }
@@ -764,6 +789,9 @@
             <div class="bank-actions">
                 <button class="btn-result-sheet" onclick="showResultSheet()">
                     রেজাল্ট শীট দেখুন
+                </button>
+                <button class="btn-reset-data" onclick="resetUnsoldPlayers()" style="background: #f59e0b;">
+                    UNSOLD → ২০ টাকা
                 </button>
                 <button class="btn-reset-data" onclick="resetData()">
                     মুছে ফেলুন (সকল ডেটা)
@@ -936,7 +964,8 @@
         }
 
         function getCurrentCategoryPlayers() {
-            return allPlayers.filter(player => player.category === currentCategory);
+            // Filter out sold players - only show UNSOLD players
+            return allPlayers.filter(player => player.category === currentCategory && !player.auctionPrice);
         }
 
         function changeCategory(newCategory) {
@@ -977,8 +1006,8 @@
             const categoryText = player.category === 'ICONIC' ? 'আইকনিক প্লেয়ার' : 'নরমাল প্লেয়ার';
             
             const priceDisplay = player.auctionPrice 
-                ? `<div class="price-info-box"><div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div><div class="sold-price-display">✅ বিক্রিত মূল্য: ${player.auctionPrice}</div>${player.team ? `<div class="base-price-display" style="color: #9333ea; margin-top: 10px;">🏆 টিম: ${player.team}</div>` : ''}</div>`
-                : `<div class="price-info-box"><div class="base-price-display">💰 ভিত্তি মূল্য: ${player.basePrice}</div><div class="sold-price-display" style="color: #ea580c;">UNSOLD</div></div>`;
+                ? `<div class="price-info-box"><div class="base-price-display">💰 BASE PRICE: ${player.basePrice}</div><div class="sold-price-display">✅ SOLD PRICE: ${player.auctionPrice}</div>${player.team ? `<div class="base-price-display" style="color: #9333ea; margin-top: 10px;">🏆 টিম: ${player.team}</div>` : ''}</div>`
+                : `<div class="price-info-box"><div class="base-price-display">💰 BASE PRICE: ${player.basePrice}</div><div class="sold-price-display" style="color: #ea580c;">UNSOLD</div></div>`;
             
             const imageHTML = player.imageURL 
                 ? `<img src="${player.imageURL}" alt="${player.name}" class="player-image-large">`
@@ -1203,9 +1232,9 @@
             if (playersToShow.length === 0) {
                 resultContainer.innerHTML = '<p style="text-align: center; color: #dc2626; font-weight: bold;">কোনো প্লেয়ার ডেটা নেই।</p>';
             } else {
-                let tableHTML = '<table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>টিম</th><th>স্ট্যাটাস</th></tr></thead><tbody>';
+                let tableHTML = '<table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>BASE PRICE</th><th>SOLD PRICE</th><th>টিম</th><th>স্ট্যাটাস</th></tr></thead><tbody>';
                 playersToShow.forEach(player => {
-                    const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
+                    const status = player.auctionPrice ? 'SOLD' : 'UNSOLD';
                     const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
                     const teamDisplay = player.team ? player.team : '---';
                     const statusColor = player.auctionPrice ? '#059669' : '#ea580c';
@@ -1270,6 +1299,21 @@
             }
         }
 
+        function resetUnsoldPlayers() {
+            const confirmReset = confirm("UNSOLD প্লেয়ারদের ভিত্তি মূল্য ২০ টাকা করতে চান?");
+            if (confirmReset) {
+                allPlayers.forEach(player => {
+                    if (!player.auctionPrice) {
+                        player.basePrice = "20";
+                        player.team = null; // Reset team selection
+                    }
+                });
+                saveToStorage();
+                displayCurrentPlayer();
+                alert("✅ UNSOLD প্লেয়ারদের ভিত্তি মূল্য ২০ টাকা করা হয়েছে।");
+            }
+        }
+
         function downloadAllResult() {
             const playersToShow = allPlayers;
             const playersPerPage = 25;
@@ -1284,8 +1328,8 @@
                 const pagePlayers = playersToShow.slice(startIdx, endIdx);
                 const pageDiv = document.createElement('div');
                 pageDiv.className = 'pdf-page';
-                pageDiv.innerHTML = `<h1>CIVIL PREMIER LEAGUE</h1><table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>ভিত্তি মূল্য</th><th>বিক্রিত মূল্য</th><th>টিম</th><th>স্ট্যাটাস</th></tr></thead><tbody>${pagePlayers.map(player => {
-                    const status = player.auctionPrice ? 'বিক্রিত' : 'অবিকৃত';
+                pageDiv.innerHTML = `<h1>CIVIL PREMIER LEAGUE</h1><table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>BASE PRICE</th><th>SOLD PRICE</th><th>টিম</th><th>স্ট্যাটাস</th></tr></thead><tbody>${pagePlayers.map(player => {
+                    const status = player.auctionPrice ? 'SOLD' : 'UNSOLD';
                     const priceDisplay = player.auctionPrice ? player.auctionPrice : '---';
                     const teamDisplay = player.team ? player.team : '---';
                     const statusClass = player.auctionPrice ? 'sold' : 'unsold';
